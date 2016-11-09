@@ -82,7 +82,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jLabel1.setText("Início");
         jLabel1.setToolTipText("");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Nenhum Cardápio Ativo--", "Cardápio 1", "Cardápio 2", "Cardápio 3" }));
 
         jLabel10.setText("Cardápio de hoje");
 
