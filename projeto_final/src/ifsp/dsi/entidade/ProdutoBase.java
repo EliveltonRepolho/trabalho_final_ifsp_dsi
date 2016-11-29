@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author repolho
  */
 public class ProdutoBase implements Serializable{
-    private int id;
+    private Long id;
     private String nome;    
     private double valor;
 }

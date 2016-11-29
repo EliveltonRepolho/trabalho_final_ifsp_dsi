@@ -5,6 +5,7 @@
  */
 package ifsp.dsi.entidade;
 
+import ifsp.dsi.enums.StatusMesa;
 import java.io.Serializable;
 
 /**
@@ -16,4 +17,43 @@ public class Mesa implements Serializable{
     private int numero;
     private int quantidadeLugares;
     private StatusMesa status;
+
+    public Mesa(int numero, int quantidadeLugares) {
+        this.numero = numero;
+        this.quantidadeLugares = quantidadeLugares;
+    }
+
+    public Mesa(int numero, int quantidadeLugares, StatusMesa status) {
+        this.numero = numero;
+        this.quantidadeLugares = quantidadeLugares;
+        this.status = status;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public int getQuantidadeLugares() {
+        return quantidadeLugares;
+    }
+
+    public void setQuantidadeLugares(int quantidadeLugares) {
+        this.quantidadeLugares = quantidadeLugares;
+    }
+
+    public StatusMesa getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusMesa status) {
+        this.status = status;
+    }
+    
+    
+    
+    
 }

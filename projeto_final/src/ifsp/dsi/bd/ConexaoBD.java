@@ -18,8 +18,8 @@ public class ConexaoBD {
     private static ConexaoBD instance;
     private BasicDataSource ds;
     private String url = "jdbc:oracle:thin:@localhost:1521:XE";
-    private String user = "repolho";
-    private String pass = "repolho";
+    private String user = "db2_admin";
+    private String pass = "db2_admin";
     private String driver = "oracle.jdbc.OracleDriver";
     
     private ConexaoBD() {
