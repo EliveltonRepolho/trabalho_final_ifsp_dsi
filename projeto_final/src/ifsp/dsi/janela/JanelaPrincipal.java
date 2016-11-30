@@ -394,10 +394,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         jMenu1.setText("Cadastros");
 
-        jMenuItem2.setText("jMenuItem2");
+        jMenuItem2.setText("Ingredientes");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                menuIngrediente(evt);
             }
         });
         jMenu1.add(jMenuItem2);
@@ -445,9 +445,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    private void menuIngrediente(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuIngrediente
+        JanelaManterIngrediente janela = new JanelaManterIngrediente();
+        janela.setVisible(true);
+    }//GEN-LAST:event_menuIngrediente
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:

@@ -24,7 +24,7 @@ public enum StatusMesa {
         this.descricao = descricao;
     }
     
-    public String descricao() {
+    public String getDescricao() {
         return descricao;
     }
     

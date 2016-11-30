@@ -5,11 +5,13 @@
  */
 package ifsp.dsi.entidade;
 
+import java.io.Serializable;
+
 /**
  *
  * @author repolho
  */
-public class Cliente {
+public class Cliente implements Serializable {
     
     private long id;
     private String nome;

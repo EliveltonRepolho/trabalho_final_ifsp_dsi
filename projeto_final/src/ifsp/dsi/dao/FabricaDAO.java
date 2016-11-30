@@ -12,12 +12,25 @@ package ifsp.dsi.dao;
 public class FabricaDAO {
     public static final String FUNCIONARIO_DAO = "funcionario";
     public static final String MESA_DAO = "mesa";
+    public static final String INGREDIENTE_DAO = "ingrediente";
+    public static final String CLIENTE_DAO = "cliente";
+    public static final String PERFIL_DAO = "perfil";
+    public static final String RESERVA_DAO = "reserva";
     
     public EntidadeDAO getEntidadeDAO(String nome){
     
         if(MESA_DAO.equalsIgnoreCase(nome)){
            return new MesaDAO();
+        }else if(INGREDIENTE_DAO.equalsIgnoreCase(nome)){
+            return new IngredienteDAO();
+        }else if(CLIENTE_DAO.equalsIgnoreCase(nome)){
+            return new ClienteDAO();
+        }else if(PERFIL_DAO.equalsIgnoreCase(nome)){
+            return new PerfilDAO();
+        }else if(RESERVA_DAO.equalsIgnoreCase(nome)){
+            return new ReservaDAO();
         }
+        
         return new FuncionarioDAO();
         
     }

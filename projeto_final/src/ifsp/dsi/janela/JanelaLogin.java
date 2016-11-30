@@ -20,6 +20,7 @@ public class JanelaLogin extends javax.swing.JFrame {
      */
     public JanelaLogin() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -41,7 +42,9 @@ public class JanelaLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
+        setLocation(new java.awt.Point(0, 0));
         setResizable(false);
+        setType(java.awt.Window.Type.POPUP);
 
         jLabel1.setText("Bem vindo ! Faça login para utilização.");
 
@@ -50,6 +53,10 @@ public class JanelaLogin extends javax.swing.JFrame {
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Senha");
+
+        txtUsuario.setText("FUN1");
+
+        txtSenha.setText("FUN1");
 
         jButton1.setText("Entrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -137,7 +144,7 @@ public class JanelaLogin extends javax.swing.JFrame {
     
     private void actionLogin(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionLogin
         if(validaForm()){
-            LoginBO bo = new LoginBO();
+            LoginBO bo = new LoginBO(this);
             if(!bo.validaUsuario(txtUsuario.getText(), txtSenha.getText())){
                 JOptionPane.showMessageDialog(null,
                 "Usuário e/ou Senha incorretos ! Verifique.",

@@ -22,22 +22,30 @@ import java.util.logging.Logger;
  */
 public class LoginBO {
 
-    private JanelaLogin janelaLogin;
+    private JanelaLogin mJanelaLogin;
     
     public LoginBO() {
+    }
+    
+    public LoginBO(JanelaLogin janelaLogin) {
+        this.mJanelaLogin = janelaLogin;
     }
     
     public boolean validaUsuario(String login, String senha){
         FabricaDAO fabrica = new FabricaDAO();
         FuncionarioDAO dao = (FuncionarioDAO) fabrica.getEntidadeDAO(FabricaDAO.FUNCIONARIO_DAO);
         
+        login = login.toUpperCase();
+        
         try {
             if(dao.autenticar(login, senha)){
-                Funcionario f = dao.buscarPorLogin(login);
+                Funcionario f = dao.getByLogin(login);
+                closeView();
+                
                 JanelaPrincipal janela = new JanelaPrincipal(f);
                 janela.setVisible(true);
                 
-                closeView();
+                
                 return true;
             }
         } catch (SQLException ex) {
@@ -48,14 +56,18 @@ public class LoginBO {
     }
 
     public void closeView() {
-        if(janelaLogin != null){
-            janelaLogin.closeView();
+        if(mJanelaLogin != null){
+            mJanelaLogin.setVisible(false);
+            mJanelaLogin.closeView();
         }
     }
     
     public void showView() {
-        janelaLogin = new JanelaLogin();
-        janelaLogin.setVisible(true);
+        
+        if(mJanelaLogin == null)
+            mJanelaLogin = new JanelaLogin();
+        
+        mJanelaLogin.setVisible(true);
         
     }
     

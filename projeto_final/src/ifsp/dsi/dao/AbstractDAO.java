@@ -30,7 +30,7 @@ public abstract class AbstractDAO<T> {
             
             pStat = getPreparedStatementSalvar(con, c);
             pStat.executeUpdate();
-
+            
             con.commit();
         }
         catch(SQLException erro){

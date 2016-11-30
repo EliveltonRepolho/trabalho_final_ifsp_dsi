@@ -12,7 +12,6 @@ import java.util.Calendar;
  * @author repolho
  */
 public class Parametro {
-    private int[] diasFuncionamento;
     
     private Calendar horarioFuncionamentoDiasUteisInicio;
     private Calendar horarioFuncionamentoDiasUteisFim;

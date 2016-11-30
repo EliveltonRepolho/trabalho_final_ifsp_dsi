@@ -50,7 +50,7 @@ public class FuncionarioDAO extends AbstractDAO<Funcionario> implements Entidade
         return true;
     }
     
-    public Funcionario buscarPorLogin(String usuario) throws SQLException{
+    public Funcionario getByLogin(String usuario) throws SQLException{
         
         Connection con = null;
         PreparedStatement pStat = null;
