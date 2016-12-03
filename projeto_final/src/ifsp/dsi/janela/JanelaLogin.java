@@ -6,6 +6,7 @@
 package ifsp.dsi.janela;
 
 import ifsp.dsi.bo.LoginBO;
+import ifsp.dsi.janela.util.MessageBox;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 
@@ -15,11 +16,16 @@ import javax.swing.JOptionPane;
  */
 public class JanelaLogin extends javax.swing.JFrame {
 
+    private LoginBO mLoginBO;
+    
     /**
      * Creates new form JanelaLogin
      */
     public JanelaLogin() {
         initComponents();
+        
+        mLoginBO = new LoginBO(this);
+        
         setLocationRelativeTo(null);
     }
 
@@ -133,10 +139,7 @@ public class JanelaLogin extends javax.swing.JFrame {
         }
         
         if(!valido){
-            JOptionPane.showMessageDialog(null,
-                texto,
-                "Atenção !",
-                JOptionPane.WARNING_MESSAGE);
+            MessageBox.showWarning(texto);
         }
         
         return valido;
@@ -144,12 +147,9 @@ public class JanelaLogin extends javax.swing.JFrame {
     
     private void actionLogin(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionLogin
         if(validaForm()){
-            LoginBO bo = new LoginBO(this);
-            if(!bo.validaUsuario(txtUsuario.getText(), txtSenha.getText())){
-                JOptionPane.showMessageDialog(null,
-                "Usuário e/ou Senha incorretos ! Verifique.",
-                "Atenção !",
-                JOptionPane.WARNING_MESSAGE);
+            
+            if(!mLoginBO.validaUsuario(txtUsuario.getText(), txtSenha.getText())){
+                MessageBox.showWarning("Usuário e/ou Senha incorretos ! Verifique.");
             }
         }
             
@@ -158,41 +158,6 @@ public class JanelaLogin extends javax.swing.JFrame {
     private void actionSair(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionSair
         System.exit(1);
     }//GEN-LAST:event_actionSair
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JanelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JanelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JanelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JanelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new JanelaLogin().setVisible(true);
-            }
-        });
-    }
 
     public void closeView() {
         dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));

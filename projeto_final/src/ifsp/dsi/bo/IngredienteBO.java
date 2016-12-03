@@ -10,6 +10,7 @@ import ifsp.dsi.dao.FabricaDAO;
 import ifsp.dsi.entidade.Ingrediente;
 import ifsp.dsi.janela.JanelaLogin;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,5 +36,34 @@ public class IngredienteBO {
         } catch (SQLException ex) {
             Logger.getLogger(IngredienteBO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void apagar(Ingrediente i){
+        FabricaDAO fabrica = new FabricaDAO();
+        EntidadeDAO dao = fabrica.getEntidadeDAO(FabricaDAO.INGREDIENTE_DAO);
+        
+        try {
+            dao.apagar(i);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(IngredienteBO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public List<Ingrediente> listarTodos(){
+        
+        FabricaDAO fabrica = new FabricaDAO();
+        EntidadeDAO dao = fabrica.getEntidadeDAO(FabricaDAO.INGREDIENTE_DAO);
+        
+        List<Ingrediente> lista = null;
+        
+        try {
+            lista = dao.listarTodos();
+        } catch (SQLException ex) {
+            Logger.getLogger(IngredienteBO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return lista;
+        
     }
 }

@@ -90,7 +90,9 @@ public class IngredienteDAO extends AbstractDAO<Ingrediente> implements Entidade
 
     @Override
     protected PreparedStatement getPreparedStatementListarTodos(Connection con) throws SQLException {
-        String sql = "select id_ingrediente,nome,valor_custo,qtde_estoque,qtde_min_estoque,flag_prato,flag_bebida from ingrediente";
+        String sql = "select id_ingrediente,nome,valor_custo,qtde_estoque,qtde_min_estoque,flag_prato,flag_bebida "
+                   + "from ingrediente "
+                   + "order by id_ingrediente";
         
         PreparedStatement pStat = con.prepareStatement(sql);        
             
