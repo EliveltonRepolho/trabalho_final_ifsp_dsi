@@ -23,8 +23,28 @@ public class ModeloTabelaIngrediente extends AbstractTableModel{
         ingredientes = new ArrayList<>();
     }
     
-    public void addRow(Ingrediente i) {
-        ingredientes.add(i);
+    private void atualizarAtIndex(int index, Ingrediente ingrediente){
+        ingredientes.get(index).setId(ingrediente.getId());
+        ingredientes.get(index).setNome(ingrediente.getNome());
+        ingredientes.get(index).setQtdeEstoque(ingrediente.getQtdeEstoque());
+        ingredientes.get(index).setQtdeMinima(ingrediente.getQtdeMinima());
+        ingredientes.get(index).setBebida(ingrediente.isPresentBebida());
+        ingredientes.get(index).setPrato(ingrediente.isPresentPrato());
+    }
+    
+    public void addRow(Ingrediente ingrediente) {
+        boolean encontrou = false;
+        
+        for (int j = 0; j < ingredientes.size() - 1; j++) {
+            if(ingredientes.get(j).getId() == ingrediente.getId()){
+                encontrou = true;
+                atualizarAtIndex(j,ingrediente);
+            }
+        }
+        
+        if(!encontrou)
+            ingredientes.add(ingrediente);
+        
         // Notifica a view que houve atualização
         fireTableDataChanged();
     }
@@ -36,15 +56,42 @@ public class ModeloTabelaIngrediente extends AbstractTableModel{
 
     public void removeRow(int row){
         ingredientes.remove(row);
-        fireTableDataChanged();
-        
+        fireTableDataChanged();  
     }
     
+    public void removeRow(Ingrediente remove){
+        
+        List<Ingrediente> deletados = new ArrayList<>();
+        
+        for (Ingrediente i : ingredientes) {
+            if(i.getId() == remove.getId())
+                deletados.add(i);
+        }
+        
+        ingredientes.removeAll(deletados);
+        
+        fireTableDataChanged();  
+    }
+    
+    public List<Ingrediente> getSelecionados(){
+        List<Ingrediente> selecionados = new ArrayList<>();
+        
+        for (Ingrediente i : ingredientes) {
+            if(i.isSelecionado())
+                selecionados.add(i);
+        }
+        
+        return selecionados;
+    }
     @Override
     public int getColumnCount() {
         return columns.length;
     }
 
+    public Ingrediente getValueAt(int rowIndex) {
+        return ingredientes.get(rowIndex);        
+    }
+    
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if (columnIndex == 0)

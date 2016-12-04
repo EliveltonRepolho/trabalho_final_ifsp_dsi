@@ -7,7 +7,9 @@ package ifsp.dsi.bo;
 
 import ifsp.dsi.dao.EntidadeDAO;
 import ifsp.dsi.dao.FabricaDAO;
+import ifsp.dsi.dao.MesaDAO;
 import ifsp.dsi.entidade.Ingrediente;
+import ifsp.dsi.entidade.Mesa;
 import ifsp.dsi.janela.JanelaLogin;
 import ifsp.dsi.janela.util.MessageBox;
 import java.sql.SQLException;
@@ -19,56 +21,55 @@ import java.util.logging.Logger;
  *
  * @author repolho
  */
-public class IngredienteBO {
+public class MesaBO {
         
-    public IngredienteBO() {}
+    public MesaBO() {}
     
-    public void salvar(Ingrediente i){
-        FabricaDAO fabrica = new FabricaDAO();
-        EntidadeDAO dao = fabrica.getEntidadeDAO(FabricaDAO.INGREDIENTE_DAO);
+    public void salvar(Mesa m){
+        MesaDAO dao = new MesaDAO();
         
         try {
-            if(i.getId() == 0L){
-                dao.salvar(i);
+            if(!dao.existe(m.getNumero())){
+                dao.salvar(m);
             }else{
-                dao.atualizar(i);
+                dao.atualizar(m);
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(IngredienteBO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MesaBO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public boolean apagar(Ingrediente i){
+    public boolean apagar(Mesa m){
         FabricaDAO fabrica = new FabricaDAO();
-        EntidadeDAO dao = fabrica.getEntidadeDAO(FabricaDAO.INGREDIENTE_DAO);
+        EntidadeDAO dao = fabrica.getEntidadeDAO(FabricaDAO.MESA_DAO);
         
         boolean deletado = true;
         
         try {
-            dao.apagar(i);
+            dao.apagar(m);
         } catch (SQLException ex) {
-            Logger.getLogger(IngredienteBO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MesaBO.class.getName()).log(Level.SEVERE, null, ex);
             
             deletado = false;
             
-            MessageBox.showError("Ingrediente sendo utilizado em algum produto !");            
+            MessageBox.showError("Não foi possível exluir a Mesa !");            
         }
         
         return deletado;
     }
     
-    public List<Ingrediente> listarTodos(){
+    public List<Mesa> listarTodos(){
         
         FabricaDAO fabrica = new FabricaDAO();
-        EntidadeDAO dao = fabrica.getEntidadeDAO(FabricaDAO.INGREDIENTE_DAO);
+        EntidadeDAO dao = fabrica.getEntidadeDAO(FabricaDAO.MESA_DAO);
         
-        List<Ingrediente> lista = null;
+        List<Mesa> lista = null;
         
         try {
             lista = dao.listarTodos();
         } catch (SQLException ex) {
-            Logger.getLogger(IngredienteBO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MesaBO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return lista;

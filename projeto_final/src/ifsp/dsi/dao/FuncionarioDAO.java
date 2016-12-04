@@ -54,7 +54,7 @@ public class FuncionarioDAO extends AbstractDAO<Funcionario> implements Entidade
         
         Connection con = null;
         PreparedStatement pStat = null;
-        String sql = "select CPF_FUNCIONARIO,NOME,LOGIN_USUARIO,SENHA from funcionario "
+        String sql = "select CPF_FUNCIONARIO,NOME,TELEFONE,PERFIL,LOGIN_USUARIO,SENHA from funcionario "
                     +" where LOGIN_USUARIO = ?";
         
         ResultSet rs = null;
@@ -70,17 +70,13 @@ public class FuncionarioDAO extends AbstractDAO<Funcionario> implements Entidade
           rs = pStat.executeQuery();
           
           if (rs.next()){
-
-            List<Long> telefones = getTelefones(rs.getLong(1));
-            List<Perfil> perfis = getPerfis(usuario);
-            
             f = new Funcionario(
                       rs.getLong(1), 
                       rs.getString(2), 
-                      telefones, 
-                      rs.getString(3), 
-                      rs.getString(4),
-                      perfis
+                      rs.getLong(3),
+                      rs.getInt(4),
+                      rs.getString(5), 
+                      rs.getString(6)
             );
               
           }        
@@ -93,16 +89,14 @@ public class FuncionarioDAO extends AbstractDAO<Funcionario> implements Entidade
         
     }
 
-    private List<Long> getTelefones(long cpf) throws SQLException{
+    public boolean existe(long cpf) throws SQLException{
         Connection con = null;
         PreparedStatement pStat = null;
-        String sql = "select CPF_FUNCIONARIO,telefone from funcionario_telefone "
+        String sql = "select CPF_FUNCIONARIO from funcionario "
                     +" where CPF_FUNCIONARIO = ?";
         
         ResultSet rs = null;
         ConexaoBD conexaoBD = ConexaoBD.getInstance();
-        
-        List<Long> telefones = new ArrayList<>();
         
         try{
           con = conexaoBD.getConnection();         
@@ -112,77 +106,68 @@ public class FuncionarioDAO extends AbstractDAO<Funcionario> implements Entidade
           
           rs = pStat.executeQuery();
           
-          while(rs.next()){
-              telefones.add(rs.getLong(2));
+          if (!rs.next()){
+              return false;
           }        
-          
         }finally{
             fecharRecursos(con, pStat, rs);
         }
         
-        
-        return telefones;
+        return true;
     }
     
-    private List<Perfil> getPerfis(String usuario) throws SQLException{
-        Connection con = null;
-        PreparedStatement pStat = null;
-        
-        String sql = "select f.login_usuario,f.role_perfil,p.descricao from funcionario_perfil f, perfil p "
-                    +" where f.ROLE_PERFIL = p.ROLE_PERFIL"
-                    +" and login_usuario = ?";
-        
-        ResultSet rs = null;
-        ConexaoBD conexaoBD = ConexaoBD.getInstance();
-        
-        List<Perfil> perfis = new ArrayList<>();
-        
-        try{
-          con = conexaoBD.getConnection();         
-        
-          pStat = con.prepareStatement(sql);
-          pStat.setString(1, usuario);
-          
-          rs = pStat.executeQuery();
-          
-          while(rs.next()){
-              perfis.add(
-                      new Perfil(rs.getString(2),rs.getString(3))
-              );
-          }        
-          
-        }finally{
-            fecharRecursos(con, pStat, rs);
-        }
-        
-        
-        return perfis;
-    }
-
     @Override
     protected PreparedStatement getPreparedStatementSalvar(Connection con, Funcionario f) throws SQLException {
-        String sql = "insert into  values (?,?)";
+        String sql = "insert into funcionario(cpf_funcionario, nome,telefone, perfil, login_usuario,senha)"
+                + "values(?,?,?,?,?,?)";
         PreparedStatement pStat = null;
         
         pStat = con.prepareStatement(sql);
         pStat.setLong(1, f.getCpf());
+        pStat.setString(2, f.getNome());
+        pStat.setLong(3, f.getTelefone());
+        pStat.setInt(4, f.getPerfil());
+        pStat.setString(5, f.getLoginUsuario());
+        pStat.setString(6, f.getSenha());
             
         return pStat;
     }
 
     @Override
     protected PreparedStatement getPreparedStatementAtualizar(Connection con, Funcionario f) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "update funcionario set nome = ?, telefone = ?, perfil = ?, login_usuario = ?, senha = ? "
+                   + "where cpf_funcionario = ?";
+                 
+        PreparedStatement pStat = con.prepareStatement(sql);
+        pStat.setString(1, f.getNome());
+        pStat.setLong(2, f.getTelefone());
+        pStat.setInt(3, f.getPerfil());
+        pStat.setString(4, f.getLoginUsuario());
+        pStat.setString(5, f.getSenha());
+        pStat.setLong(6, f.getCpf());
+            
+        return pStat;
     }
 
     @Override
     protected PreparedStatement getPreparedStatementApagar(Connection con, Funcionario f) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         String sql = "delete funcionario where cpf_funcionario = ?";
+         
+         PreparedStatement pStat = con.prepareStatement(sql);
+         pStat.setLong(1, f.getCpf());
+            
+        return pStat;
     }
 
     @Override
     protected PreparedStatement getPreparedStatementListarTodos(Connection con) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "select cpf_funcionario, nome,telefone, perfil, login_usuario,senha "
+                   + "from funcionario "
+                   + "order by nome";
+        
+        PreparedStatement pStat = con.prepareStatement(sql);        
+            
+        return pStat;
     }
     
     @Override
@@ -192,18 +177,19 @@ public class FuncionarioDAO extends AbstractDAO<Funcionario> implements Entidade
         while (rs.next()) {
             long cpf = rs.getLong(1);
             String nome = rs.getString(2);
-            List<Long> telefones = getTelefones(cpf);
-            String loginUsuario = rs.getString(3);
-            String senha = rs.getString(4);
-            List<Perfil> perfis = getPerfis(loginUsuario);
+            long telefones = rs.getLong(3);
+            int perfil = rs.getInt(4);
+            String loginUsuario = rs.getString(5);
+            String senha = rs.getString(6);
+            
             
             Funcionario f = new Funcionario(
                 cpf, 
                 nome, 
                 telefones, 
+                perfil,
                 loginUsuario, 
-                senha,
-                perfis
+                senha
             );
             
             funcionarios.add(f);

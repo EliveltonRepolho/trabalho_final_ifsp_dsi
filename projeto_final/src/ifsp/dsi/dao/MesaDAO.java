@@ -5,6 +5,7 @@
  */
 package ifsp.dsi.dao;
 
+import ifsp.dsi.bd.ConexaoBD;
 import ifsp.dsi.entidade.Funcionario;
 import ifsp.dsi.entidade.Mesa;
 import ifsp.dsi.entidade.Perfil;
@@ -22,6 +23,33 @@ import java.util.List;
  */
 public class MesaDAO extends AbstractDAO<Mesa> implements EntidadeDAO<Mesa>{
 
+    public boolean existe(int numeroMesa) throws SQLException{
+        Connection con = null;
+        PreparedStatement pStat = null;
+        String sql = "select NUMERO_MESA from mesa "
+                    +" where NUMERO_MESA = ?";
+        
+        ResultSet rs = null;
+        ConexaoBD conexaoBD = ConexaoBD.getInstance();
+        
+        try{
+          con = conexaoBD.getConnection();         
+        
+          pStat = con.prepareStatement(sql);
+          pStat.setInt(1, numeroMesa);
+          
+          rs = pStat.executeQuery();
+          
+          if (!rs.next()){
+              return false;
+          }        
+        }finally{
+            fecharRecursos(con, pStat, rs);
+        }
+        
+        return true;
+    }
+    
     @Override
     protected PreparedStatement getPreparedStatementSalvar(Connection con, Mesa m) throws SQLException {
         String sql = "insert into mesa(NUMERO_MESA,QTDE_LUGARES) values (seq_mesa.NEXTVAL, ?)";
@@ -63,7 +91,7 @@ public class MesaDAO extends AbstractDAO<Mesa> implements EntidadeDAO<Mesa>{
         while (rs.next()) {
             int numero = rs.getInt(1);
             int qtde = rs.getInt(2);
-            StatusMesa status = StatusMesa.getValue(rs.getInt(3));
+            StatusMesa status = StatusMesa.getByStatus(rs.getInt(3));
             
             Mesa m = new Mesa(
                 numero, 

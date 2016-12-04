@@ -74,7 +74,7 @@ public class ReservaDAO extends AbstractDAO<Reserva> implements EntidadeDAO<Rese
         while (rs.next()) {
             
             Cliente c = new Cliente(rs.getLong(1), rs.getString(2), rs.getLong(3));
-            Mesa m = new Mesa(rs.getInt(4), rs.getInt(5), StatusMesa.getValue(rs.getInt(6)));
+            Mesa m = new Mesa(rs.getInt(4), rs.getInt(5), StatusMesa.getByStatus(rs.getInt(6)));
             
             Reserva r = new Reserva(
                     rs.getLong(7), 

@@ -17,6 +17,8 @@ public class Mesa implements Serializable{
     private int numero;
     private int quantidadeLugares;
     private StatusMesa status;
+    
+    private boolean selecionado;
 
     public Mesa(int numero, int quantidadeLugares) {
         this.numero = numero;
@@ -51,6 +53,14 @@ public class Mesa implements Serializable{
 
     public void setStatus(StatusMesa status) {
         this.status = status;
+    }
+
+    public boolean isSelecionado() {
+        return selecionado;
+    }
+
+    public void setSelecionado(boolean selecionado) {
+        this.selecionado = selecionado;
     }
     
     

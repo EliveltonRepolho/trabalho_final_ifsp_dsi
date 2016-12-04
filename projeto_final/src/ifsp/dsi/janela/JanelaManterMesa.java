@@ -5,10 +5,10 @@
  */
 package ifsp.dsi.janela;
 
-
-import ifsp.dsi.janela.tabela.ModeloTabelaIngrediente;
-import ifsp.dsi.bo.IngredienteBO;
-import ifsp.dsi.entidade.Ingrediente;
+import ifsp.dsi.bo.MesaBO;
+import ifsp.dsi.entidade.Mesa;
+import ifsp.dsi.enums.StatusMesa;
+import ifsp.dsi.janela.tabela.ModeloTabelaMesa;
 import ifsp.dsi.janela.util.MessageBox;
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,20 +19,20 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author repolho
  */
-public class JanelaManterIngrediente extends javax.swing.JFrame {
+public class JanelaManterMesa extends javax.swing.JFrame {
 
     
-    private IngredienteBO mIngredienteBO;
-    private Ingrediente mIngrediente;
-    private ModeloTabelaIngrediente model;
+    private MesaBO mMesaBO;
+    private Mesa mMesa;
+    private ModeloTabelaMesa model;
     
     /**
      * Creates new form JanelaCadItemProduto
      */
-    public JanelaManterIngrediente() {
+    public JanelaManterMesa() {
         initComponents();
         
-        mIngredienteBO = new IngredienteBO();
+        mMesaBO = new MesaBO();
         
         popularTabela();
     }
@@ -50,17 +50,9 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
         buttonGroup2 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
-        txtNome = new javax.swing.JTextField();
-        txtQtdeEstoque = new javax.swing.JTextField();
-        txtQtdeMinima = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        txtNumero = new javax.swing.JTextField();
+        txtQtdeLugares = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        txtValorCusto = new javax.swing.JTextField();
-        flagPrato = new javax.swing.JCheckBox();
-        flagBabida = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         btnExcluirSelecionados = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -71,6 +63,8 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        txtStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -86,42 +80,14 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
             .addGap(0, 45, Short.MAX_VALUE)
         );
 
-        jLabel2.setText("Id");
+        jLabel2.setText("Número");
 
-        jLabel3.setText("Nome");
+        txtNumero.setEditable(false);
+        txtNumero.setToolTipText("Id gerado automaticamente");
 
-        txtId.setEditable(false);
-        txtId.setToolTipText("Id gerado automaticamente");
+        txtQtdeLugares.setToolTipText("Quantidade mínima para manter em estoque");
 
-        txtNome.setToolTipText("Nome do ingrediente");
-
-        txtQtdeEstoque.setToolTipText("Quantidade atual no estoque");
-
-        txtQtdeMinima.setToolTipText("Quantidade mínima para manter em estoque");
-
-        jLabel4.setText("Estoque");
-
-        jLabel5.setText("Qtde Mínima");
-
-        jLabel6.setText("Valor de Custo");
-
-        txtValorCusto.setToolTipText("Valor de custo");
-
-        flagPrato.setText("Vai no Prato ?");
-        flagPrato.setToolTipText("Informar se o ingrediente vai em algum prato");
-        flagPrato.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                flagPratoActionPerformed(evt);
-            }
-        });
-
-        flagBabida.setText("Vai na Bebida ?");
-        flagBabida.setToolTipText("Informar se o ingrediente vai em alguma bebida ou drink");
-        flagBabida.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                flagBabidaActionPerformed(evt);
-            }
-        });
+        jLabel5.setText("Qtde Lugares");
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -203,7 +169,7 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        model = new ModeloTabelaIngrediente();
+        model = new ModeloTabelaMesa();
         table.setModel(model);
         table.setColumnSelectionAllowed(true);
         table.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -214,52 +180,43 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
         jScrollPane1.setViewportView(table);
         table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
+        jLabel7.setText("Status atual");
+
+        txtStatus.setText("Status");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(13, 13, 13)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(txtQtdeEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtQtdeMinima, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtValorCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(flagPrato)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(flagBabida)))
+                .addComponent(txtQtdeLugares, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtStatus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnExcluirSelecionados))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 827, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(55, 55, 55))
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnExcluirSelecionados))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,56 +230,36 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtQtdeEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtQtdeMinima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
+                            .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtQtdeLugares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(txtValorCusto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(flagPrato)
-                            .addComponent(flagBabida))))
-                .addGap(18, 18, 18)
+                            .addComponent(jLabel7)
+                            .addComponent(txtStatus))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExcluirSelecionados))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void flagPratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_flagPratoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_flagPratoActionPerformed
-
-    private void flagBabidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_flagBabidaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_flagBabidaActionPerformed
 
     private void actionSalvar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionSalvar
         
         if(!validaForm())
             return;
         
-        mIngrediente = new Ingrediente(
-                Long.valueOf(txtId.getText()),
-                txtNome.getText(),
-                new BigDecimal(txtValorCusto.getText()),
-                Double.valueOf(txtQtdeEstoque.getText()),
-                Double.valueOf(txtQtdeMinima.getText()),
-                flagPrato.isSelected(),
-                flagBabida.isSelected()
+        mMesa = new Mesa(
+                Integer.valueOf(txtNumero.getText()),
+                Integer.valueOf(txtQtdeLugares.getText()),
+                StatusMesa.LIVRE
         );
         
-        mIngredienteBO.salvar(mIngrediente);
-        model.addRow(mIngrediente);
+        mMesaBO.salvar(mMesa);
+        model.addRow(mMesa);
         MessageBox.showInfo("Salvo com sucesso !");
         
     }//GEN-LAST:event_actionSalvar
@@ -337,36 +274,35 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
 
     private void actionExcluir(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionExcluir
         if(MessageBox.showAskYesNo("Excluir ?") == MessageBox.YES_OPTION){
-            mIngredienteBO.apagar(mIngrediente);                    
+            mMesaBO.apagar(mMesa);                    
         }        
-        model.removeRow(mIngrediente);
+        model.removeRow(mMesa);
         table.setModel(model);
                 
     }//GEN-LAST:event_actionExcluir
 
     private void btnExcluirSelecionados(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirSelecionados
-        List<Ingrediente> selecionados = model.getSelecionados();
+        List<Mesa> selecionados = model.getSelecionados();
         
         if(MessageBox.showAskYesNo("Excluir ?") == MessageBox.YES_OPTION){
-            for (Ingrediente i : selecionados) {
-
-                if(mIngredienteBO.apagar(i))
-                    model.removeRow(i);
-            }
-        }
-        
+           for (Mesa m : selecionados) {
+            
+                if(mMesaBO.apagar(m))
+                    model.removeRow(m);
+            }                  
+        }  
         
     }//GEN-LAST:event_btnExcluirSelecionados
 
     private void actionaCancelar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionaCancelar
-        if(mIngrediente != null)
+        if(mMesa != null)
             atualizaValores();
         
         preparaEditavel(false);
     }//GEN-LAST:event_actionaCancelar
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
-        mIngrediente = model.getValueAt(table.getSelectedRow());
+        mMesa = model.getValueAt(table.getSelectedRow());
         atualizaValores();
         preparaEditavel(false);
     }//GEN-LAST:event_tableMouseClicked
@@ -380,38 +316,25 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
     private javax.swing.JButton btnSalvar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JCheckBox flagBabida;
-    private javax.swing.JCheckBox flagPrato;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
-    private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtQtdeEstoque;
-    private javax.swing.JTextField txtQtdeMinima;
-    private javax.swing.JTextField txtValorCusto;
+    private javax.swing.JTextField txtNumero;
+    private javax.swing.JTextField txtQtdeLugares;
+    private javax.swing.JLabel txtStatus;
     // End of variables declaration//GEN-END:variables
 
     private void preparaNovo() {
+        txtNumero.setText("0");
+        txtQtdeLugares.setText("0");
+        txtStatus.setText("Status");
         
-        preparaEditavel(true);
-        
-        txtId.setText("0");
-        txtNome.setText("");
-        txtQtdeEstoque.setText("");
-        txtQtdeMinima.setText("");
-        txtValorCusto.setText("");
-        flagBabida.setSelected(false);
-        flagPrato.setSelected(false);
-        
-        txtNome.requestFocus();
+        txtQtdeLugares.requestFocus();
         
         btnNovo.setEnabled(false);
         btnEditar.setEnabled(false);
@@ -420,20 +343,16 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
 
     private void preparaEditavel(boolean editavel){
         
-        txtId.setEnabled(false);
+        txtNumero.setEnabled(false);
         
-        txtNome.setEnabled(editavel);
-        txtQtdeEstoque.setEnabled(editavel);
-        txtQtdeMinima.setEnabled(editavel);
-        txtValorCusto.setEnabled(editavel);
-        flagBabida.setEnabled(editavel);
-        flagPrato.setEnabled(editavel);
+        txtQtdeLugares.setEnabled(editavel);
+        
     }
     
     private void preparaEditar() {
         preparaEditavel(true);
         
-        txtNome.requestFocus();
+        txtQtdeLugares.requestFocus();
         
         btnEditar.setEnabled(false);
         btnExcluir.setEnabled(true);
@@ -445,36 +364,10 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
         boolean valid = true;
         String texto = "";
         
-        if(txtNome.getText().equals("")){
-            texto = "Nome não pode estar vazio !";
-            valid = false;
-        }
-        
-        if(txtQtdeEstoque.getText().equals("")){
-            txtQtdeEstoque.setText("0");
-        }else if(Double.valueOf(txtQtdeEstoque.getText()) < 0){
-            String aux = "Quantidade de estoque deve ser um valor positivo ou zero !";
-            texto += texto.equals("") ? aux : "\n" + aux;
-            valid = false;
-        }
-        
-        if(txtQtdeMinima.getText().equals("")){
-            txtQtdeMinima.setText("0");
-        }else if(Double.valueOf(txtQtdeMinima.getText()) < 0){
-            String aux = "Quantidade mínima de estoque deve ser um valor positivo ou zero !";
-            texto += texto.equals("") ? aux : "\n" + aux;
-            valid = false;
-        }
-        
-        if(txtValorCusto.getText().equals("") || Double.valueOf(txtValorCusto.getText()) == 0){
-            String aux = "Valor de custo deve ter um valor !";
-            texto += texto.equals("") ? aux : "\n" + aux;
-            valid = false;
-        }
-        
-        if(!flagBabida.isSelected() && !flagPrato.isSelected()){
-            String aux = "O ingrediente deve fazer parte de pelos Prato ou Bebida !";
-            texto += texto.equals("") ? aux : "\n" + aux;
+        if(txtQtdeLugares.getText().equals("")){
+            txtQtdeLugares.setText("0");
+        }else if(Double.valueOf(txtQtdeLugares.getText()) <= 0){
+            String aux = "Quantidade de lugares inválida !";
             valid = false;
         }
         
@@ -487,41 +380,25 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
 
     private void popularTabela() {
         
-        List<Ingrediente> lista = mIngredienteBO.listarTodos();
+        List<Mesa> lista = mMesaBO.listarTodos();
         
-        for (Ingrediente i : lista) {
+        for (Mesa i : lista) {
             model.addRow(i);
         }
 
     }
 
     private void atualizaValores() {
-        txtId.setText(
-                String.valueOf(mIngrediente.getId())
+        txtNumero.setText(
+                String.valueOf(mMesa.getNumero())
         );
         
-        txtNome.setText(
-                mIngrediente.getNome()
+        txtQtdeLugares.setText(
+                String.valueOf(mMesa.getQuantidadeLugares())
         );
         
-        txtQtdeEstoque.setText(
-                String.valueOf(mIngrediente.getQtdeEstoque())
-        );
-        
-        txtQtdeMinima.setText(
-                String.valueOf(mIngrediente.getQtdeMinima())
-        );
-        
-        txtValorCusto.setText(
-                String.valueOf(mIngrediente.getValorCusto())
-        );
-        
-        flagBabida.setSelected(
-                mIngrediente.isPresentBebida()
-        );
-        
-        flagPrato.setSelected(
-                mIngrediente.isPresentPrato()
+        txtStatus.setText(
+                mMesa.getStatus().getDescricao()
         );
     }
 }

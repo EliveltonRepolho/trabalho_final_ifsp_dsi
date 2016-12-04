@@ -6,9 +6,9 @@
 package ifsp.dsi.janela;
 
 
-import ifsp.dsi.janela.tabela.ModeloTabelaIngrediente;
-import ifsp.dsi.bo.IngredienteBO;
-import ifsp.dsi.entidade.Ingrediente;
+import ifsp.dsi.bo.FuncionarioBO;
+import ifsp.dsi.entidade.Funcionario;
+import ifsp.dsi.janela.tabela.ModeloTabelaFuncionario;
 import ifsp.dsi.janela.util.MessageBox;
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,20 +19,20 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author repolho
  */
-public class JanelaManterIngrediente extends javax.swing.JFrame {
+public class JanelaManterFuncionario extends javax.swing.JFrame {
 
     
-    private IngredienteBO mIngredienteBO;
-    private Ingrediente mIngrediente;
-    private ModeloTabelaIngrediente model;
+    private FuncionarioBO mFuncionarioBO;
+    private Funcionario mFuncionario;
+    private ModeloTabelaFuncionario model;
     
     /**
      * Creates new form JanelaCadItemProduto
      */
-    public JanelaManterIngrediente() {
+    public JanelaManterFuncionario() {
         initComponents();
         
-        mIngredienteBO = new IngredienteBO();
+        mFuncionarioBO = new FuncionarioBO();
         
         popularTabela();
     }
@@ -48,19 +48,21 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
+        jPanel3 = new javax.swing.JPanel();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
+        buttonGroup5 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
+        txtCpf = new javax.swing.JTextField();
         txtNome = new javax.swing.JTextField();
-        txtQtdeEstoque = new javax.swing.JTextField();
-        txtQtdeMinima = new javax.swing.JTextField();
+        txtTelefone = new javax.swing.JTextField();
+        txtLogin = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtValorCusto = new javax.swing.JTextField();
-        flagPrato = new javax.swing.JCheckBox();
-        flagBabida = new javax.swing.JCheckBox();
+        txtSenha = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         btnExcluirSelecionados = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -71,6 +73,20 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        radioGerente = new javax.swing.JRadioButton();
+        radioAtendente = new javax.swing.JRadioButton();
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -86,46 +102,30 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
             .addGap(0, 45, Short.MAX_VALUE)
         );
 
-        jLabel2.setText("Id");
+        jLabel2.setText("CPF");
 
         jLabel3.setText("Nome");
 
-        txtId.setEditable(false);
-        txtId.setToolTipText("Id gerado automaticamente");
+        txtCpf.setEditable(false);
+        txtCpf.setToolTipText("Id gerado automaticamente");
 
         txtNome.setToolTipText("Nome do ingrediente");
 
-        txtQtdeEstoque.setToolTipText("Quantidade atual no estoque");
+        txtTelefone.setToolTipText("Quantidade atual no estoque");
 
-        txtQtdeMinima.setToolTipText("Quantidade mínima para manter em estoque");
+        txtLogin.setToolTipText("Quantidade mínima para manter em estoque");
 
-        jLabel4.setText("Estoque");
+        jLabel4.setText("Telefone");
 
-        jLabel5.setText("Qtde Mínima");
+        jLabel5.setText("Login");
 
-        jLabel6.setText("Valor de Custo");
+        jLabel6.setText("Senha");
 
-        txtValorCusto.setToolTipText("Valor de custo");
-
-        flagPrato.setText("Vai no Prato ?");
-        flagPrato.setToolTipText("Informar se o ingrediente vai em algum prato");
-        flagPrato.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                flagPratoActionPerformed(evt);
-            }
-        });
-
-        flagBabida.setText("Vai na Bebida ?");
-        flagBabida.setToolTipText("Informar se o ingrediente vai em alguma bebida ou drink");
-        flagBabida.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                flagBabidaActionPerformed(evt);
-            }
-        });
+        txtSenha.setToolTipText("Valor de custo");
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Gerenciamento dos Ingredientes");
+        jLabel1.setText("Gerenciamento dos Funcionários");
         jLabel1.setToolTipText("");
 
         btnExcluirSelecionados.setText("Excluir selecionado(s)");
@@ -203,7 +203,7 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        model = new ModeloTabelaIngrediente();
+        model = new ModeloTabelaFuncionario();
         table.setModel(model);
         table.setColumnSelectionAllowed(true);
         table.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -214,52 +214,82 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
         jScrollPane1.setViewportView(table);
         table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Perfil"));
+
+        radioGerente.setText("Gerente");
+        buttonGroup1.add(radioGerente);
+
+        radioAtendente.setText("Atendente");
+        buttonGroup1.add(radioAtendente);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(radioGerente)
+                .addGap(18, 18, 18)
+                .addComponent(radioAtendente)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radioGerente)
+                    .addComponent(radioAtendente)))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(txtQtdeEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTelefone))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtQtdeMinima, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtValorCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(flagPrato)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(flagBabida)))
+                        .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnExcluirSelecionados))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 827, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(55, 55, 55))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 851, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,55 +304,52 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtQtdeEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtQtdeMinima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(txtValorCusto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(flagPrato)
-                            .addComponent(flagBabida))))
-                .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6)
+                                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExcluirSelecionados))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void flagPratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_flagPratoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_flagPratoActionPerformed
-
-    private void flagBabidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_flagBabidaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_flagBabidaActionPerformed
 
     private void actionSalvar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionSalvar
         
         if(!validaForm())
             return;
         
-        mIngrediente = new Ingrediente(
-                Long.valueOf(txtId.getText()),
+        int perfil = radioGerente.isSelected() ? 0 : 1;
+        
+        mFuncionario = new Funcionario(
+                Long.valueOf(txtCpf.getText()),
                 txtNome.getText(),
-                new BigDecimal(txtValorCusto.getText()),
-                Double.valueOf(txtQtdeEstoque.getText()),
-                Double.valueOf(txtQtdeMinima.getText()),
-                flagPrato.isSelected(),
-                flagBabida.isSelected()
+                Long.valueOf(txtTelefone.getText()),
+                perfil,
+                txtLogin.getText(),
+                txtSenha.getText()
+                
         );
         
-        mIngredienteBO.salvar(mIngrediente);
-        model.addRow(mIngrediente);
+        mFuncionarioBO.salvar(mFuncionario);
+        model.addRow(mFuncionario);
         MessageBox.showInfo("Salvo com sucesso !");
         
     }//GEN-LAST:event_actionSalvar
@@ -337,36 +364,35 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
 
     private void actionExcluir(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionExcluir
         if(MessageBox.showAskYesNo("Excluir ?") == MessageBox.YES_OPTION){
-            mIngredienteBO.apagar(mIngrediente);                    
+            mFuncionarioBO.apagar(mFuncionario);                    
         }        
-        model.removeRow(mIngrediente);
+        model.removeRow(mFuncionario);
         table.setModel(model);
                 
     }//GEN-LAST:event_actionExcluir
 
     private void btnExcluirSelecionados(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirSelecionados
-        List<Ingrediente> selecionados = model.getSelecionados();
-        
+        List<Funcionario> selecionados = model.getSelecionados();
         if(MessageBox.showAskYesNo("Excluir ?") == MessageBox.YES_OPTION){
-            for (Ingrediente i : selecionados) {
-
-                if(mIngredienteBO.apagar(i))
-                    model.removeRow(i);
-            }
+            for (Funcionario f : selecionados) {
+                 if(mFuncionarioBO.apagar(f))
+                     model.removeRow(f);
+             }
         }
+        
         
         
     }//GEN-LAST:event_btnExcluirSelecionados
 
     private void actionaCancelar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionaCancelar
-        if(mIngrediente != null)
+        if(mFuncionario != null)
             atualizaValores();
         
         preparaEditavel(false);
     }//GEN-LAST:event_actionaCancelar
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
-        mIngrediente = model.getValueAt(table.getSelectedRow());
+        mFuncionario = model.getValueAt(table.getSelectedRow());
         atualizaValores();
         preparaEditavel(false);
     }//GEN-LAST:event_tableMouseClicked
@@ -380,8 +406,9 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
     private javax.swing.JButton btnSalvar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JCheckBox flagBabida;
-    private javax.swing.JCheckBox flagPrato;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.ButtonGroup buttonGroup5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -390,26 +417,31 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton radioAtendente;
+    private javax.swing.JRadioButton radioGerente;
     private javax.swing.JTable table;
-    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtCpf;
+    private javax.swing.JTextField txtLogin;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtQtdeEstoque;
-    private javax.swing.JTextField txtQtdeMinima;
-    private javax.swing.JTextField txtValorCusto;
+    private javax.swing.JTextField txtSenha;
+    private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
 
     private void preparaNovo() {
         
         preparaEditavel(true);
         
-        txtId.setText("0");
+        txtCpf.setEnabled(true);
+        
+        txtCpf.setText("0");
         txtNome.setText("");
-        txtQtdeEstoque.setText("");
-        txtQtdeMinima.setText("");
-        txtValorCusto.setText("");
-        flagBabida.setSelected(false);
-        flagPrato.setSelected(false);
+        txtTelefone.setText("");
+        txtLogin.setText("");
+        txtSenha.setText("");
+        radioGerente.setSelected(true);
         
         txtNome.requestFocus();
         
@@ -420,14 +452,15 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
 
     private void preparaEditavel(boolean editavel){
         
-        txtId.setEnabled(false);
+        txtCpf.setEnabled(false);
         
         txtNome.setEnabled(editavel);
-        txtQtdeEstoque.setEnabled(editavel);
-        txtQtdeMinima.setEnabled(editavel);
-        txtValorCusto.setEnabled(editavel);
-        flagBabida.setEnabled(editavel);
-        flagPrato.setEnabled(editavel);
+        txtTelefone.setEnabled(editavel);
+        txtLogin.setEnabled(editavel);
+        txtSenha.setEnabled(editavel);
+        radioGerente.setEnabled(editavel);
+        radioAtendente.setEnabled(editavel);
+        
     }
     
     private void preparaEditar() {
@@ -450,31 +483,21 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
             valid = false;
         }
         
-        if(txtQtdeEstoque.getText().equals("")){
-            txtQtdeEstoque.setText("0");
-        }else if(Double.valueOf(txtQtdeEstoque.getText()) < 0){
-            String aux = "Quantidade de estoque deve ser um valor positivo ou zero !";
+        if(txtTelefone.getText().equals("")){
+            txtTelefone.setText("0");
+        }else if(Double.valueOf(txtTelefone.getText()) < 10){
+            String aux = "Telefone inválido !";
             texto += texto.equals("") ? aux : "\n" + aux;
             valid = false;
         }
         
-        if(txtQtdeMinima.getText().equals("")){
-            txtQtdeMinima.setText("0");
-        }else if(Double.valueOf(txtQtdeMinima.getText()) < 0){
-            String aux = "Quantidade mínima de estoque deve ser um valor positivo ou zero !";
-            texto += texto.equals("") ? aux : "\n" + aux;
+        if(txtLogin.getText().equals("")){
+            texto = "Login não pode estar vazio !";
             valid = false;
         }
         
-        if(txtValorCusto.getText().equals("") || Double.valueOf(txtValorCusto.getText()) == 0){
-            String aux = "Valor de custo deve ter um valor !";
-            texto += texto.equals("") ? aux : "\n" + aux;
-            valid = false;
-        }
-        
-        if(!flagBabida.isSelected() && !flagPrato.isSelected()){
-            String aux = "O ingrediente deve fazer parte de pelos Prato ou Bebida !";
-            texto += texto.equals("") ? aux : "\n" + aux;
+        if(txtSenha.getText().equals("")){
+            texto = "Senha não pode estar vazio !";
             valid = false;
         }
         
@@ -487,41 +510,41 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
 
     private void popularTabela() {
         
-        List<Ingrediente> lista = mIngredienteBO.listarTodos();
+        List<Funcionario> lista = mFuncionarioBO.listarTodos();
         
-        for (Ingrediente i : lista) {
+        for (Funcionario i : lista) {
             model.addRow(i);
         }
 
     }
 
     private void atualizaValores() {
-        txtId.setText(
-                String.valueOf(mIngrediente.getId())
+        txtCpf.setText(
+                String.valueOf(mFuncionario.getCpf())
         );
         
         txtNome.setText(
-                mIngrediente.getNome()
+                mFuncionario.getNome()
         );
         
-        txtQtdeEstoque.setText(
-                String.valueOf(mIngrediente.getQtdeEstoque())
+        txtTelefone.setText(
+                String.valueOf(mFuncionario.getTelefone())
         );
         
-        txtQtdeMinima.setText(
-                String.valueOf(mIngrediente.getQtdeMinima())
+        txtLogin.setText(
+                mFuncionario.getLoginUsuario()
         );
         
-        txtValorCusto.setText(
-                String.valueOf(mIngrediente.getValorCusto())
+        txtSenha.setText(
+                mFuncionario.getSenha()
         );
         
-        flagBabida.setSelected(
-                mIngrediente.isPresentBebida()
-        );
-        
-        flagPrato.setSelected(
-                mIngrediente.isPresentPrato()
-        );
+        if(mFuncionario.getPerfil() == 0){
+            radioGerente.setSelected(true);
+            radioAtendente.setSelected(false);
+        }else{
+            radioAtendente.setSelected(true);
+            radioGerente.setSelected(false);
+        }
     }
 }

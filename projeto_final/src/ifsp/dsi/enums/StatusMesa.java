@@ -14,29 +14,36 @@ import java.util.Map;
  * @author repolho
  */
 public enum StatusMesa {
-    LIVRE("Livre"),
-    OCUPADA("Ocupada"),
-    RESERVADA("Reservada");
+    LIVRE(0,"Livre"),
+    OCUPADA(1,"Ocupada"),
+    RESERVADA(2,"Reservada");
     
     private String descricao;
+    private int status;
 
-    StatusMesa(String descricao) {
+    StatusMesa(int status,String descricao) {
         this.descricao = descricao;
+        this.status = status;
     }
     
     public String getDescricao() {
         return descricao;
     }
     
-    private static final Map<String, StatusMesa > lookup
-   = new HashMap<String, StatusMesa >();
+    public int getStatus() {
+        return status;
+    }
+       
+   private static final Map<Integer, StatusMesa> byStatus = new HashMap<Integer, StatusMesa>();
+    static {
+        for (StatusMesa e : StatusMesa.values()) {
+            if (byStatus.put(e.getStatus(), e) != null) {
+                throw new IllegalArgumentException("duplicate id: " + e.getStatus());
+            }
+        }
+    }
 
-   static {
-   for (StatusMesa s : EnumSet.allOf(StatusMesa.class))
-         lookup.put(s.descricao, s);
-   }
-
-   public static StatusMesa getValue(int intValue) {
-      return lookup.get(intValue);
-   }
+    public static StatusMesa getByStatus(int status) {
+        return byStatus.get(status);
+    }
 }

@@ -5,6 +5,9 @@
  */
 package ifsp.dsi.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -19,4 +22,16 @@ public interface EntidadeDAO<T> {
     public void apagar(T entidade) throws SQLException;
     public List<T> listarTodos() throws SQLException;
     
+    public static void fecharRecursos(Connection conn, PreparedStatement pStat, ResultSet rs) throws SQLException{
+      fecharRecursos(conn, pStat);
+      if(rs!= null) rs.close();
+    }
+    
+    public static void fecharRecursos(Connection con, PreparedStatement pStat) throws SQLException {
+        
+        con.setAutoCommit(true);
+        
+        if (con != null) con.close();
+        if (pStat != null) pStat.close();
+    }
 }

@@ -5,6 +5,7 @@
  */
 package ifsp.dsi.entidade;
 
+import ifsp.dsi.seguranca.CriptografiaMD5;
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,18 +17,20 @@ public class Funcionario implements Serializable {
     
     private long cpf;
     private String nome;
-    private List<Long> telefones;
+    private long telefone;
     private String loginUsuario;
     private String senha;
-    private List<Perfil> perfis;
+    private int perfil;
+    
+    private boolean selecionado;
 
-    public Funcionario(long cpf, String nome, List<Long> telefones, String loginUsuario, String senha, List<Perfil> perfis) {
+    public Funcionario(long cpf, String nome, long telefone, int perfil, String loginUsuario, String senha) {
         this.cpf = cpf;
         this.nome = nome;
-        this.telefones = telefones;
+        this.telefone = telefone;
         this.loginUsuario = loginUsuario;
         this.senha = senha;
-        this.perfis = perfis;
+        this.perfil = perfil;
     }
 
     public long getCpf() {
@@ -46,12 +49,12 @@ public class Funcionario implements Serializable {
         this.nome = nome;
     }
 
-    public List<Long> getTelefones() {
-        return telefones;
+    public long getTelefone() {
+        return telefone;
     }
 
-    public void setTelefones(List<Long> telefones) {
-        this.telefones = telefones;
+    public void setTelefone(long telefone) {
+        this.telefone = telefone;
     }
 
     public String getLoginUsuario() {
@@ -70,12 +73,24 @@ public class Funcionario implements Serializable {
         this.senha = senha;
     }
 
-    public List<Perfil> getPerfis() {
-        return perfis;
+    public int getPerfil() {
+        return perfil;
     }
 
-    public void setPerfis(List<Perfil> perfis) {
-        this.perfis = perfis;
+    public void setPerfil(int perfil) {
+        this.perfil = perfil;
+    }
+
+    public boolean isSelecionado() {
+        return selecionado;
+    }
+
+    public void setSelecionado(boolean selecionado) {
+        this.selecionado = selecionado;
+    }
+
+    public void encriptarSenha() {
+        senha = CriptografiaMD5.cryptWithMD5(senha);
     }
     
     

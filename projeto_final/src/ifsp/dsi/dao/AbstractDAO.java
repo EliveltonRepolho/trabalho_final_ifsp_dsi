@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author repolho
  */
-public abstract class AbstractDAO<T> {
+public abstract class AbstractDAO<T>{
     
     public void salvar(T c) throws SQLException {
         Connection con = null;
@@ -41,7 +41,7 @@ public abstract class AbstractDAO<T> {
             throw erro;
         }
         finally {
-            fecharRecursos(con, pStat);
+            EntidadeDAO.fecharRecursos(con, pStat);
         }
     }
     
@@ -70,7 +70,7 @@ public abstract class AbstractDAO<T> {
             throw erro;
         }
         finally {
-            fecharRecursos(con, pStat);
+            EntidadeDAO.fecharRecursos(con, pStat);
         }
     }
     
@@ -98,7 +98,7 @@ public abstract class AbstractDAO<T> {
             throw erro;
         }
         finally {
-            fecharRecursos(con, pStat);
+            EntidadeDAO.fecharRecursos(con, pStat);
         }
     }
     
@@ -123,26 +123,22 @@ public abstract class AbstractDAO<T> {
         }
         finally
         {
-            fecharRecursos(con, pStat, rs);
+            EntidadeDAO.fecharRecursos(con, pStat, rs);
         }
         
         return list;
     }
-    
-    protected void fecharRecursos(Connection conn, PreparedStatement pStat, ResultSet rs) throws SQLException{
-      fecharRecursos(conn, pStat);
-      if(rs!= null) rs.close();
-    }
-    
-    protected void fecharRecursos(Connection con, PreparedStatement pStat) throws SQLException {
-        
-        con.setAutoCommit(true);
-        
-        if (con != null) con.close();
-        if (pStat != null) pStat.close();
-    }
 
     protected abstract List<T> getListaTodos(ResultSet rs)throws SQLException;
     protected abstract PreparedStatement getPreparedStatementListarTodos(Connection con)throws SQLException;
+    
+    
+    public static void fecharRecursos(Connection conn, PreparedStatement pStat, ResultSet rs) throws SQLException{
+      EntidadeDAO.fecharRecursos(conn, pStat,rs);
+    }
+    
+    public static void fecharRecursos(Connection con, PreparedStatement pStat) throws SQLException {
+        EntidadeDAO.fecharRecursos(con, pStat);
+    }
 }
 

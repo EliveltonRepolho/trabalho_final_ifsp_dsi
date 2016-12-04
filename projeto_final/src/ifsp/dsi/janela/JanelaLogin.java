@@ -60,9 +60,9 @@ public class JanelaLogin extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Senha");
 
-        txtUsuario.setText("FUN1");
+        txtUsuario.setText("ADMIN");
 
-        txtSenha.setText("FUN1");
+        txtSenha.setText("ADMIN");
 
         jButton1.setText("Entrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

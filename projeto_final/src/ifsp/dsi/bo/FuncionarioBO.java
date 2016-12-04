@@ -7,9 +7,11 @@ package ifsp.dsi.bo;
 
 import ifsp.dsi.dao.EntidadeDAO;
 import ifsp.dsi.dao.FabricaDAO;
-import ifsp.dsi.entidade.Ingrediente;
+import ifsp.dsi.dao.FuncionarioDAO;
+import ifsp.dsi.entidade.Funcionario;
 import ifsp.dsi.janela.JanelaLogin;
 import ifsp.dsi.janela.util.MessageBox;
+import ifsp.dsi.seguranca.CriptografiaMD5;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,56 +21,57 @@ import java.util.logging.Logger;
  *
  * @author repolho
  */
-public class IngredienteBO {
+public class FuncionarioBO {
         
-    public IngredienteBO() {}
+    public FuncionarioBO() {}
     
-    public void salvar(Ingrediente i){
-        FabricaDAO fabrica = new FabricaDAO();
-        EntidadeDAO dao = fabrica.getEntidadeDAO(FabricaDAO.INGREDIENTE_DAO);
+    public void salvar(Funcionario f){
+        FuncionarioDAO dao = new FuncionarioDAO();
+        
+        f.encriptarSenha();
         
         try {
-            if(i.getId() == 0L){
-                dao.salvar(i);
+            if(!dao.existe(f.getCpf())){
+                dao.salvar(f);
             }else{
-                dao.atualizar(i);
+                dao.atualizar(f);
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(IngredienteBO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FuncionarioBO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public boolean apagar(Ingrediente i){
+    public boolean apagar(Funcionario f){
         FabricaDAO fabrica = new FabricaDAO();
-        EntidadeDAO dao = fabrica.getEntidadeDAO(FabricaDAO.INGREDIENTE_DAO);
+        EntidadeDAO dao = fabrica.getEntidadeDAO(FabricaDAO.FUNCIONARIO_DAO);
         
         boolean deletado = true;
         
         try {
-            dao.apagar(i);
+            dao.apagar(f);
         } catch (SQLException ex) {
-            Logger.getLogger(IngredienteBO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FuncionarioBO.class.getName()).log(Level.SEVERE, null, ex);
             
             deletado = false;
             
-            MessageBox.showError("Ingrediente sendo utilizado em algum produto !");            
+            MessageBox.showError("Não foi possível excluir o funcionário !");            
         }
         
         return deletado;
     }
     
-    public List<Ingrediente> listarTodos(){
+    public List<Funcionario> listarTodos(){
         
         FabricaDAO fabrica = new FabricaDAO();
-        EntidadeDAO dao = fabrica.getEntidadeDAO(FabricaDAO.INGREDIENTE_DAO);
+        EntidadeDAO dao = fabrica.getEntidadeDAO(FabricaDAO.FUNCIONARIO_DAO);
         
-        List<Ingrediente> lista = null;
+        List<Funcionario> lista = null;
         
         try {
             lista = dao.listarTodos();
         } catch (SQLException ex) {
-            Logger.getLogger(IngredienteBO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FuncionarioBO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return lista;

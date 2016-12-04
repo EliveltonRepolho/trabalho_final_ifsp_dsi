@@ -79,7 +79,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        mMesa = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -412,15 +412,20 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
 
         jMenuItem4.setText("Funcionario");
-        jMenu1.add(jMenuItem4);
-
-        jMenuItem3.setText("Mesa");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                menuFuncionario(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        jMenu1.add(jMenuItem4);
+
+        mMesa.setText("Mesa");
+        mMesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuMesa(evt);
+            }
+        });
+        jMenu1.add(mMesa);
 
         jMenuItem5.setText("Prato");
         jMenu1.add(jMenuItem5);
@@ -503,9 +508,15 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    private void menuMesa(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMesa
+        JanelaManterMesa janela = new JanelaManterMesa();
+        janela.setVisible(true);
+    }//GEN-LAST:event_menuMesa
+
+    private void menuFuncionario(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFuncionario
+        JanelaManterFuncionario janela = new JanelaManterFuncionario();
+        janela.setVisible(true);
+    }//GEN-LAST:event_menuFuncionario
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -541,7 +552,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
@@ -560,5 +570,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JMenuItem mMesa;
     // End of variables declaration//GEN-END:variables
 }
