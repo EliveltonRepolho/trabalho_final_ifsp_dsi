@@ -23,23 +23,23 @@ import java.util.List;
  *
  * @author repolho
  */
-public class JanelaManterPrato extends javax.swing.JFrame {
+public class JanelaManterSuco extends javax.swing.JFrame {
 
     
     private MontavelBO mMontavelBO;
     private MontavelIngredientes mMontavelIngredientes;
     private ModeloTabelaIngredienteMontavel modelIngredientes;
-    private ModeloTabelaMontavel modelPratos;
+    private ModeloTabelaMontavel modelSucos;
     
     /**
      * Creates new form JanelaCadItemProduto
      */
-    public JanelaManterPrato() {
+    public JanelaManterSuco() {
         initComponents();
         
         mMontavelBO = new MontavelBO();
         
-        popularTabelaPratos();
+        popularTabelaSucos();
         populaComboIngredientes();
         
         preparaEditavel(false);
@@ -72,7 +72,7 @@ public class JanelaManterPrato extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablePratos = new javax.swing.JTable();
+        tableSucos = new javax.swing.JTable();
         txtValorVenda = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -115,7 +115,7 @@ public class JanelaManterPrato extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Gerenciamento dos Pratos");
+        jLabel1.setText("Gerenciamento dos Sucos");
         jLabel1.setToolTipText("");
 
         btnExcluirSelecionados.setText("Excluir selecionado(s)");
@@ -193,16 +193,16 @@ public class JanelaManterPrato extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        modelPratos = new ModeloTabelaMontavel();
-        tablePratos.setModel(modelPratos);
-        tablePratos.setColumnSelectionAllowed(true);
-        tablePratos.addMouseListener(new java.awt.event.MouseAdapter() {
+        modelSucos = new ModeloTabelaMontavel();
+        tableSucos.setModel(modelSucos);
+        tableSucos.setColumnSelectionAllowed(true);
+        tableSucos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablePratosMouseClicked(evt);
+                tableSucosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tablePratos);
-        tablePratos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(tableSucos);
+        tableSucos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         txtValorVenda.setToolTipText("Valor de custo");
 
@@ -258,7 +258,7 @@ public class JanelaManterPrato extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tabelaIngredientes);
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Ingrediente que compõe o prato");
+        jLabel9.setText("Ingrediente que compõe o suco");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -365,7 +365,7 @@ public class JanelaManterPrato extends javax.swing.JFrame {
                 Long.valueOf(txtId.getText()), 
                 txtNome.getText(), 
                 new BigDecimal(txtValorCusto.getText()), 
-                MontavelTipo.PRATO, 
+                MontavelTipo.SUCO, 
                 new BigDecimal(txtPercentualLucro.getText())
         );
         
@@ -378,7 +378,7 @@ public class JanelaManterPrato extends javax.swing.JFrame {
         mMontavelBO.salvar(
                 new MontavelIngredientes(lista)
         );
-        modelPratos.addRow(montavel);
+        modelSucos.addRow(montavel);
         MessageBox.showInfo("Salvo com sucesso !");
         
     }//GEN-LAST:event_actionSalvar
@@ -397,19 +397,19 @@ public class JanelaManterPrato extends javax.swing.JFrame {
             Montavel montavel = mMontavelIngredientes.getMontavelIngredientes().get(0).getMontavel();
             
             mMontavelBO.apagar(montavel); 
-            modelPratos.removeRow(montavel);
+            modelSucos.removeRow(montavel);
         }        
                 
     }//GEN-LAST:event_actionExcluir
 
     private void btnExcluirSelecionados(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirSelecionados
-        List<Montavel> selecionados = modelPratos.getSelecionados();
+        List<Montavel> selecionados = modelSucos.getSelecionados();
         
         if(MessageBox.showAskYesNo("Excluir ?") == MessageBox.YES_OPTION){
             for (Montavel m : selecionados) {
 
                 if(mMontavelBO.apagar(m))
-                    modelPratos.removeRow(m);
+                    modelSucos.removeRow(m);
             }
         }
         
@@ -423,12 +423,12 @@ public class JanelaManterPrato extends javax.swing.JFrame {
         preparaEditavel(false);
     }//GEN-LAST:event_actionaCancelar
 
-    private void tablePratosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePratosMouseClicked
-        Montavel montavel = modelPratos.getValueAt(tablePratos.getSelectedRow());
+    private void tableSucosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableSucosMouseClicked
+        Montavel montavel = modelSucos.getValueAt(tableSucos.getSelectedRow());
         mMontavelIngredientes = mMontavelBO.listarByMontavel(montavel);
         atualizaValores();
         preparaEditavel(false);
-    }//GEN-LAST:event_tablePratosMouseClicked
+    }//GEN-LAST:event_tableSucosMouseClicked
 
     private void actionAddIngrediente(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionAddIngrediente
         
@@ -441,7 +441,7 @@ public class JanelaManterPrato extends javax.swing.JFrame {
         Montavel montavel = new Montavel(
                                 txtNome.getText(), 
                                 BigDecimal.ZERO, 
-                                MontavelTipo.PRATO, 
+                                MontavelTipo.SUCO, 
                                 new BigDecimal(txtPercentualLucro.getText())
         );
         
@@ -479,7 +479,7 @@ public class JanelaManterPrato extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tabelaIngredientes;
-    private javax.swing.JTable tablePratos;
+    private javax.swing.JTable tableSucos;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtPercentualLucro;
@@ -569,7 +569,7 @@ public class JanelaManterPrato extends javax.swing.JFrame {
         
         cboIngredientes.removeAllItems();
         
-        List<Ingrediente> ingredientes = bo.listarByTipo(MontavelTipo.PRATO);
+        List<Ingrediente> ingredientes = bo.listarByTipo(MontavelTipo.SUCO);
                 
         for (Ingrediente i : ingredientes) {
             cboIngredientes.addItem(i);
@@ -577,12 +577,12 @@ public class JanelaManterPrato extends javax.swing.JFrame {
         
     }
     
-    private void popularTabelaPratos() {
+    private void popularTabelaSucos() {
         
-        List<Montavel> lista = mMontavelBO.listarByTipo(MontavelTipo.PRATO);
+        List<Montavel> lista = mMontavelBO.listarByTipo(MontavelTipo.SUCO);
         
         for (Montavel m : lista) {
-            modelPratos.addRow(m);
+            modelSucos.addRow(m);
         }
 
     }

@@ -5,9 +5,6 @@
  */
 package ifsp.dsi.entidade;
 
-import java.io.Serializable;
-import java.util.List;
-
 /**
  *
  * @author repolho

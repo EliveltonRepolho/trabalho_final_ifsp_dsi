@@ -33,7 +33,15 @@ public enum MontavelTipo {
     public int getTipo() {
         return tipo;
     }
-       
+    
+    public boolean isPresentePrato(){
+        return getTipo() == this.PRATO.tipo;
+    }
+    
+    public boolean isPresenteBebida(){
+        return getTipo() != this.PRATO.tipo;
+    }
+    
    private static final Map<Integer, MontavelTipo> byStatus = new HashMap<Integer, MontavelTipo>();
     static {
         for (MontavelTipo e : MontavelTipo.values()) {
@@ -46,4 +54,5 @@ public enum MontavelTipo {
     public static MontavelTipo getByTipo(int status) {
         return byStatus.get(status);
     }
+    
 }

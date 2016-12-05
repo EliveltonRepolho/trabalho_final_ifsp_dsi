@@ -144,7 +144,7 @@
           <Font name="Ubuntu" size="18" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Gerenciamento dos Ingredientes"/>
+        <Property name="text" type="java.lang.String" value="Gerenciamento das Mesas"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>

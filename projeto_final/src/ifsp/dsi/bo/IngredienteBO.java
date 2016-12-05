@@ -7,7 +7,9 @@ package ifsp.dsi.bo;
 
 import ifsp.dsi.dao.EntidadeDAO;
 import ifsp.dsi.dao.FabricaDAO;
+import ifsp.dsi.dao.IngredienteDAO;
 import ifsp.dsi.entidade.Ingrediente;
+import ifsp.dsi.enums.MontavelTipo;
 import ifsp.dsi.janela.JanelaLogin;
 import ifsp.dsi.janela.util.MessageBox;
 import java.sql.SQLException;
@@ -67,6 +69,22 @@ public class IngredienteBO {
         
         try {
             lista = dao.listarTodos();
+        } catch (SQLException ex) {
+            Logger.getLogger(IngredienteBO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return lista;
+        
+    }
+    
+    public List<Ingrediente> listarByTipo(MontavelTipo tipo){
+        
+        IngredienteDAO dao = new IngredienteDAO();
+        
+        List<Ingrediente> lista = null;
+        
+        try {
+            lista = dao.listarByTipo(tipo);
         } catch (SQLException ex) {
             Logger.getLogger(IngredienteBO.class.getName()).log(Level.SEVERE, null, ex);
         }

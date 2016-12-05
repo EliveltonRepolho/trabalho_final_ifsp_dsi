@@ -48,7 +48,7 @@ public class MessageBox {
      */
     public static void showInfo(String message) {
         JOptionPane.showMessageDialog(new JFrame(),
-                "<html><body>" + message + "</body></html>",
+                message,
                 "Informação",
                 JOptionPane.INFORMATION_MESSAGE);
     }
@@ -62,7 +62,7 @@ public class MessageBox {
      */
     public static int showInfoOkCancel(String message) {
         return JOptionPane.showConfirmDialog(new JFrame(),
-                "<html><body>" + message + "</body></html>",
+                message,
                 "Informação",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
@@ -77,7 +77,7 @@ public class MessageBox {
      */
     public static int showInfoYesNo(String message) {
         return JOptionPane.showConfirmDialog(new JFrame(),
-                "<html><body>" + message + "</body></html>",
+                message,
                 "Informação",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
@@ -92,7 +92,7 @@ public class MessageBox {
      */
     public static int showInfoYesNoCancel(String message) {
         return JOptionPane.showConfirmDialog(new JFrame(),
-                "<html><body>" + message + "</body></html>",
+                message,
                 "Informação",
                 JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
@@ -105,7 +105,7 @@ public class MessageBox {
      */
     public static void showWarning(String message) {
         JOptionPane.showMessageDialog(new JFrame(),
-                "<html><body>" + message + "</body></html>",
+                message,
                 "Atenção",
                 JOptionPane.WARNING_MESSAGE);
     }
@@ -119,7 +119,7 @@ public class MessageBox {
      */
     public static int showWarningOkCancel(String message) {
         return JOptionPane.showConfirmDialog(new JFrame(),
-                "<html><body>" + message + "</body></html>",
+                message,
                 "Atenção",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.WARNING_MESSAGE);
@@ -134,7 +134,7 @@ public class MessageBox {
      */
     public static int showWarningYesNo(String message) {
         return JOptionPane.showConfirmDialog(new JFrame(),
-                "<html><body>" + message + "</body></html>",
+                message,
                 "Atenção",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE);
@@ -149,7 +149,7 @@ public class MessageBox {
      */
     public static int showWarningYesNoCancel(String message) {
         return JOptionPane.showConfirmDialog(new JFrame(),
-                "<html><body>" + message + "</body></html>",
+                message,
                 "Atenção",
                 JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.WARNING_MESSAGE);
@@ -164,7 +164,7 @@ public class MessageBox {
      */
     public static int showAskOkCancel(String message) {
         return JOptionPane.showConfirmDialog(new JFrame(),
-                "<html><body>" + message + "</body></html>",
+                message,
                 "Atenção",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
@@ -179,7 +179,7 @@ public class MessageBox {
      */
     public static int showAskYesNo(String message) {
         return JOptionPane.showConfirmDialog(new JFrame(),
-                "<html><body>" + message + "</body></html>",
+                message,
                 "Comfirma ?",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
@@ -194,7 +194,7 @@ public class MessageBox {
      */
     public static int showAskYesNoCancel(String message) {
         return JOptionPane.showConfirmDialog(new JFrame(),
-                "<html><body>" + message + "</body></html>",
+                message,
                 "Comfirma ?",
                 JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
@@ -208,7 +208,7 @@ public class MessageBox {
      */
     public static void showError(String errorMessage) {
         JOptionPane.showMessageDialog(new JFrame(),
-                "<html><body>" + errorMessage + "</body></html>",
+                errorMessage,
                 "Comfirma ?",
                 JOptionPane.ERROR_MESSAGE);
     }

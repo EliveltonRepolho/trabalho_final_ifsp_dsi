@@ -338,10 +338,9 @@ public class JanelaManterIngrediente extends javax.swing.JFrame {
     private void actionExcluir(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionExcluir
         if(MessageBox.showAskYesNo("Excluir ?") == MessageBox.YES_OPTION){
             mIngredienteBO.apagar(mIngrediente);                    
+            model.removeRow(mIngrediente);
         }        
-        model.removeRow(mIngrediente);
-        table.setModel(model);
-                
+                        
     }//GEN-LAST:event_actionExcluir
 
     private void btnExcluirSelecionados(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirSelecionados

@@ -5,8 +5,11 @@
  */
 package ifsp.dsi.dao;
 
+import ifsp.dsi.bd.ConexaoBD;
 import ifsp.dsi.entidade.Ingrediente;
 import ifsp.dsi.entidade.Mesa;
+import ifsp.dsi.entidade.Montavel;
+import ifsp.dsi.enums.MontavelTipo;
 import ifsp.dsi.enums.StatusMesa;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -92,11 +95,60 @@ public class IngredienteDAO extends AbstractDAO<Ingrediente> implements Entidade
     protected PreparedStatement getPreparedStatementListarTodos(Connection con) throws SQLException {
         String sql = "select id_ingrediente,nome,valor_custo,qtde_estoque,qtde_min_estoque,flag_prato,flag_bebida "
                    + "from ingrediente "
-                   + "order by id_ingrediente";
+                   + "order by nome";
         
         PreparedStatement pStat = con.prepareStatement(sql);        
             
         return pStat;
+    }
+    
+    public List<Ingrediente> listarByTipo(MontavelTipo tipo) throws SQLException {
+        
+        Connection con = null;
+        PreparedStatement pStat = null;
+        ResultSet rs = null;
+        ConexaoBD conexaoBD = ConexaoBD.getInstance();
+        
+        String whereClause = "where ";
+               whereClause += tipo.isPresentePrato() ? "flag_prato = ? " :  "flag_bebida = ? ";
+               
+        String sql = "select id_ingrediente,nome,valor_custo,qtde_estoque,qtde_min_estoque,flag_prato,flag_bebida "
+                   + "from ingrediente "
+                   + whereClause
+                   + "order by nome";
+        
+        List<Ingrediente> list = new ArrayList<>();
+        
+        try
+        {
+          con = conexaoBD.getConnection();
+          
+          pStat = con.prepareStatement(sql);
+          pStat.setString(1, "Y");
+          
+          rs = pStat.executeQuery();
+          
+          while (rs.next()) {
+                Ingrediente i = new Ingrediente(
+                        rs.getLong(1), 
+                        rs.getString(2), 
+                        rs.getBigDecimal(3), 
+                        rs.getDouble(4), 
+                        rs.getDouble(5), 
+                        rs.getString(6).equalsIgnoreCase("Y"), 
+                        rs.getString(7).equalsIgnoreCase("Y")
+                );
+                
+                list.add(i);
+         }
+          
+        }
+        finally
+        {
+            EntidadeDAO.fecharRecursos(con, pStat, rs);
+        }
+        
+        return list;
     }
 }
     

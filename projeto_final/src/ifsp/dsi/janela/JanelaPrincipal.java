@@ -5,7 +5,14 @@
  */
 package ifsp.dsi.janela;
 
+import ifsp.dsi.bo.IngredienteBO;
+import ifsp.dsi.bo.MesaBO;
 import ifsp.dsi.entidade.Funcionario;
+import ifsp.dsi.entidade.Ingrediente;
+import ifsp.dsi.entidade.Mesa;
+import ifsp.dsi.enums.MontavelTipo;
+import ifsp.dsi.janela.tabela.ModeloTabelaMesaPrincipal;
+import java.util.List;
 
 /**
  *
@@ -18,6 +25,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
      */
     
     private Funcionario mFuncionario;
+    private ModeloTabelaMesaPrincipal modelMesa;
     
     /**
      * Creates new form JanelaPrincipal
@@ -26,6 +34,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     public JanelaPrincipal(Funcionario funcionario) {
         initComponents();
         mFuncionario = funcionario;
+        
+        lblNomeUsuario.setText(mFuncionario.getNome());
+        
+        popularTabelaMesas();
+        popularCombosMesas();
     }
 
     /**
@@ -44,11 +57,12 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
+        lblNomeUsuario = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cboMesas = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -61,7 +75,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cboMesasReserva = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -87,6 +101,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
 
@@ -112,15 +127,19 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jLabel13.setText("logado como: CErepolho");
+        jLabel13.setText("logado como:");
+
+        lblNomeUsuario.setText("CErepolho");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(30, 30, 30)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(179, 179, 179)
                 .addComponent(jLabel10)
@@ -137,7 +156,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel10)
                 .addComponent(jButton6)
-                .addComponent(jLabel13))
+                .addComponent(jLabel13)
+                .addComponent(lblNomeUsuario))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -153,8 +173,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         });
 
         jButton2.setText("Finalizar");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel3.setText("Mesa:");
 
@@ -173,7 +191,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                         .addGap(51, 51, 51)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cboMesas, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
@@ -184,7 +202,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboMesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -216,8 +234,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         jLabel12.setText("Mesa:");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Lista de espera--", "--Escolha mesa--", "Mesa 1", "Mesa 4", "Mesa 5", "Mesa 6" }));
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -238,7 +254,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cboMesasReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField3)
@@ -259,7 +275,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3)
                     .addComponent(jLabel12)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(cboMesasReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
@@ -351,34 +367,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Status das mesas");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                { new Integer(1),  new Integer(4),  new Integer(3), "Ocupada"},
-                { new Integer(2),  new Integer(4),  new Integer(0), "Livre"},
-                { new Integer(3),  new Integer(6),  new Integer(4), "Ocupada"},
-                { new Integer(4),  new Integer(6),  new Integer(5), "Ocupada"},
-                { new Integer(5),  new Integer(2),  new Integer(1), "Ocupada"},
-                { new Integer(6),  new Integer(2),  new Integer(0), "Livre"}
-            },
-            new String [] {
-                "Nº", "Lugares", "Pessoas", "Status"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        modelMesa = new ModeloTabelaMesaPrincipal();
+        jTable1.setModel(modelMesa);
         jScrollPane3.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -428,9 +418,19 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jMenu1.add(mMesa);
 
         jMenuItem5.setText("Prato");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPrato(evt);
+            }
+        });
         jMenu1.add(jMenuItem5);
 
         jMenuItem6.setText("Drink");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDrink(evt);
+            }
+        });
         jMenu1.add(jMenuItem6);
 
         jMenuItem7.setText("Vinhos");
@@ -447,6 +447,14 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         jMenuItem11.setText("Tipo de Pagamento");
         jMenu1.add(jMenuItem11);
+
+        jMenuItem3.setText("Suco");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSuco(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
 
@@ -518,7 +526,24 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         janela.setVisible(true);
     }//GEN-LAST:event_menuFuncionario
 
+    private void menuPrato(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrato
+        JanelaManterPrato janela = new JanelaManterPrato();
+        janela.setVisible(true);
+    }//GEN-LAST:event_menuPrato
+
+    private void menuDrink(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDrink
+        JanelaManterDrink janela = new JanelaManterDrink();
+        janela.setVisible(true);
+    }//GEN-LAST:event_menuDrink
+
+    private void menuSuco(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSuco
+        JanelaManterSuco janela = new JanelaManterSuco();
+        janela.setVisible(true);
+    }//GEN-LAST:event_menuSuco
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<Mesa> cboMesas;
+    private javax.swing.JComboBox<Mesa> cboMesasReserva;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -526,9 +551,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -552,6 +575,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
@@ -570,6 +594,31 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel lblNomeUsuario;
     private javax.swing.JMenuItem mMesa;
     // End of variables declaration//GEN-END:variables
+
+    private void popularTabelaMesas() {
+        MesaBO bo = new MesaBO();
+        
+        List<Mesa> lista = bo.listarTodos();
+        
+        for (Mesa i : lista) {
+            modelMesa.addRow(i);
+        }
+    }
+
+    private void popularCombosMesas() {
+        MesaBO bo = new MesaBO();
+        
+        cboMesas.removeAllItems();
+        cboMesasReserva.removeAllItems();
+        
+        List<Mesa> lista = bo.listarTodos();
+        
+        for (Mesa i : lista) {
+            cboMesas.addItem(i);
+            cboMesasReserva.addItem(i);
+        }
+    }
 }

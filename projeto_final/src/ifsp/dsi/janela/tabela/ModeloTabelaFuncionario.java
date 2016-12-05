@@ -94,16 +94,20 @@ public class ModeloTabelaFuncionario extends AbstractTableModel{
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if (columnIndex == 0)
-            return funcionarios.get(rowIndex).getCpf();
-        else if (columnIndex == 1)
-            return funcionarios.get(rowIndex).getNome();
-        else if (columnIndex == 2)
-            return funcionarios.get(rowIndex).getTelefone();
-        else if (columnIndex == 3)
-            return funcionarios.get(rowIndex).getPerfil() == 0 ? "Gerente" : "Atendente";
-        else if (columnIndex == 4)
-            return funcionarios.get(rowIndex).getLoginUsuario();
+        switch (columnIndex) {
+            case 0:
+                return funcionarios.get(rowIndex).getCpf();
+            case 1:
+                return funcionarios.get(rowIndex).getNome();
+            case 2:
+                return funcionarios.get(rowIndex).getTelefone();
+            case 3:
+                return funcionarios.get(rowIndex).getPerfil() == 0 ? "Gerente" : "Atendente";
+            case 4:
+                return funcionarios.get(rowIndex).getLoginUsuario();
+            default:
+                break;
+        }
         
         return funcionarios.get(rowIndex).isSelecionado();
         

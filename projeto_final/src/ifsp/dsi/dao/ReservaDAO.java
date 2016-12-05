@@ -6,9 +6,7 @@
 package ifsp.dsi.dao;
 
 import ifsp.dsi.entidade.Cliente;
-import ifsp.dsi.entidade.Funcionario;
 import ifsp.dsi.entidade.Mesa;
-import ifsp.dsi.entidade.Perfil;
 import ifsp.dsi.entidade.Reserva;
 import ifsp.dsi.enums.StatusMesa;
 import ifsp.dsi.enums.StatusReserva;

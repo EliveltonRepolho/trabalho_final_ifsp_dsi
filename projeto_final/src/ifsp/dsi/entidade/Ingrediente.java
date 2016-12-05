@@ -77,5 +77,11 @@ public class Ingrediente extends ProdutoBase implements Serializable{
         this.selecionado = selecionado;
     }
 
+    @Override
+    public String toString() {
+        return getNome();
+    }
+
+    
     
 }

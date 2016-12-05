@@ -18,6 +18,8 @@ public class Montavel extends ProdutoBase{
     private MontavelTipo tipo;
     private BigDecimal percentualLucro;
 
+    private boolean selecionado;
+    
     public Montavel(String nome, BigDecimal valorCusto, MontavelTipo tipo, BigDecimal percentualLucro) {
         super(nome, valorCusto);
         this.tipo = tipo;
@@ -47,9 +49,22 @@ public class Montavel extends ProdutoBase{
     }
     
     
-    
-    
+    public BigDecimal getValorVenda(){
+        
+        BigDecimal bigDecimal = getValorCusto().multiply(getPercentualLucro()).divide(new BigDecimal(100));
+        
+        bigDecimal.add(getValorCusto());
+                
+        return bigDecimal;
+    }
 
-   
+    public boolean isSelecionado() {
+        return selecionado;
+    }
+
+    public void setSelecionado(boolean selecionado) {
+        this.selecionado = selecionado;
+    }
+    
     
 }

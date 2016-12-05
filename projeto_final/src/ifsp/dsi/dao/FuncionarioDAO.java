@@ -7,7 +7,6 @@ package ifsp.dsi.dao;
 
 import ifsp.dsi.bd.ConexaoBD;
 import ifsp.dsi.entidade.Funcionario;
-import ifsp.dsi.entidade.Perfil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

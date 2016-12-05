@@ -10,10 +10,7 @@ import ifsp.dsi.entidade.Mesa;
 import ifsp.dsi.enums.StatusMesa;
 import ifsp.dsi.janela.tabela.ModeloTabelaMesa;
 import ifsp.dsi.janela.util.MessageBox;
-import java.math.BigDecimal;
 import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -91,7 +88,7 @@ public class JanelaManterMesa extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Gerenciamento dos Ingredientes");
+        jLabel1.setText("Gerenciamento das Mesas");
         jLabel1.setToolTipText("");
 
         btnExcluirSelecionados.setText("Excluir selecionado(s)");
@@ -275,10 +272,9 @@ public class JanelaManterMesa extends javax.swing.JFrame {
     private void actionExcluir(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionExcluir
         if(MessageBox.showAskYesNo("Excluir ?") == MessageBox.YES_OPTION){
             mMesaBO.apagar(mMesa);                    
+            model.removeRow(mMesa);
         }        
-        model.removeRow(mMesa);
-        table.setModel(model);
-                
+               
     }//GEN-LAST:event_actionExcluir
 
     private void btnExcluirSelecionados(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirSelecionados

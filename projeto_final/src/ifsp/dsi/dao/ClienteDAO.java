@@ -5,7 +5,10 @@
  */
 package ifsp.dsi.dao;
 
+import ifsp.dsi.bd.ConexaoBD;
+import static ifsp.dsi.dao.AbstractDAO.fecharRecursos;
 import ifsp.dsi.entidade.Cliente;
+import ifsp.dsi.entidade.Funcionario;
 import ifsp.dsi.entidade.Mesa;
 import ifsp.dsi.enums.StatusMesa;
 import java.sql.Connection;
@@ -82,6 +85,42 @@ public class ClienteDAO extends AbstractDAO<Cliente> implements EntidadeDAO<Clie
         pStat = con.prepareStatement(sql);        
             
         return pStat;
+    }
+    
+    public Cliente getByTelefone(long telefeone) throws SQLException{
+        
+        Connection con = null;
+        PreparedStatement pStat = null;
+        String sql = "select id_cliente, nome,telefone from cliente "
+                    +" where telefone = ?";
+        
+        ResultSet rs = null;
+        ConexaoBD conexaoBD = ConexaoBD.getInstance();
+        
+        Cliente c = null;
+        try{
+          con = conexaoBD.getConnection();         
+        
+          pStat = con.prepareStatement(sql);
+          pStat.setLong(1, telefeone);
+          
+          rs = pStat.executeQuery();
+          
+          if (rs.next()){
+            c = new Cliente(
+                      rs.getLong(1), 
+                      rs.getString(2), 
+                      rs.getLong(3)
+            );
+              
+          }        
+        }finally{
+            fecharRecursos(con, pStat, rs);
+        }
+        
+        
+        return c;
+        
     }
     
 }

@@ -94,20 +94,24 @@ public class ModeloTabelaIngrediente extends AbstractTableModel{
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if (columnIndex == 0)
-            return ingredientes.get(rowIndex).getId();
-        else if (columnIndex == 1)
-            return ingredientes.get(rowIndex).getNome();
-        else if (columnIndex == 2)
-            return ingredientes.get(rowIndex).getQtdeEstoque();
-        else if (columnIndex == 3)
-            return ingredientes.get(rowIndex).getQtdeMinima();
-        else if (columnIndex == 4)
-            return ingredientes.get(rowIndex).getValorCusto();
-        else if (columnIndex == 5)
-            return ingredientes.get(rowIndex).isPresentPrato();
-        else if (columnIndex == 6)
-            return ingredientes.get(rowIndex).isPresentBebida();
+        switch (columnIndex) {
+            case 0:
+                return ingredientes.get(rowIndex).getId();
+            case 1:
+                return ingredientes.get(rowIndex).getNome();
+            case 2:
+                return ingredientes.get(rowIndex).getQtdeEstoque();
+            case 3:
+                return ingredientes.get(rowIndex).getQtdeMinima();
+            case 4:
+                return ingredientes.get(rowIndex).getValorCusto();
+            case 5:
+                return ingredientes.get(rowIndex).isPresentPrato();
+            case 6:
+                return ingredientes.get(rowIndex).isPresentBebida();
+            default:
+                break;
+        }
         
         return ingredientes.get(rowIndex).isSelecionado();
         

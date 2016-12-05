@@ -62,6 +62,12 @@ public class Mesa implements Serializable{
     public void setSelecionado(boolean selecionado) {
         this.selecionado = selecionado;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(getNumero());
+    }
+    
     
     
     

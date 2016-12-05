@@ -29,9 +29,11 @@ public interface EntidadeDAO<T> {
     
     public static void fecharRecursos(Connection con, PreparedStatement pStat) throws SQLException {
         
-        con.setAutoCommit(true);
+        if (con != null && !con.isClosed()){
+            con.setAutoCommit(true);
+            con.close();
+        }
         
-        if (con != null) con.close();
         if (pStat != null) pStat.close();
     }
 }
