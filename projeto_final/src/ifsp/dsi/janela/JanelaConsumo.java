@@ -5,6 +5,19 @@
  */
 package ifsp.dsi.janela;
 
+import ifsp.dsi.bo.BebidaBO;
+import ifsp.dsi.bo.FuncionarioBO;
+import ifsp.dsi.bo.MontavelBO;
+import ifsp.dsi.entidade.Funcionario;
+import ifsp.dsi.entidade.Ingrediente;
+import ifsp.dsi.entidade.Mesa;
+import ifsp.dsi.entidade.Montavel;
+import ifsp.dsi.entidade.MontavelIngrediente;
+import ifsp.dsi.entidade.MontavelIngredientes;
+import ifsp.dsi.entidade.ProdutoBase;
+import ifsp.dsi.enums.MontavelTipo;
+import java.util.List;
+
 /**
  *
  * @author repolho
@@ -14,8 +27,18 @@ public class JanelaConsumo extends javax.swing.JFrame {
     /**
      * Creates new form JanelaConsumo
      */
-    public JanelaConsumo() {
+    public JanelaConsumo(Funcionario funcionario, Mesa mesa) {
         initComponents();
+        
+        populaCombos();
+        
+        cboFuncionarios.setSelectedItem(funcionario);
+        
+        lblTitulo.setText("Consumo Mesa " + String.valueOf(mesa.getNumero()));                
+        
+        txtSafra.setEnabled(false);
+        txtTipoUva.setEnabled(false);
+        txtIngredientes.setEnabled(false);
     }
 
     /**
@@ -28,48 +51,48 @@ public class JanelaConsumo extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        cboPratos = new javax.swing.JComboBox<>();
+        cboBebidas = new javax.swing.JComboBox<>();
+        cboDrinks = new javax.swing.JComboBox<>();
+        cboVinhos = new javax.swing.JComboBox<>();
+        txtNomeProduto = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtIngredientes = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        lblSafra = new javax.swing.JLabel();
+        txtQtde = new javax.swing.JTextField();
+        txtValor = new javax.swing.JTextField();
+        txtSafra = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        lblTipoUva = new javax.swing.JLabel();
+        txtTipoUva = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        txtQtdePessoas = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox<>();
+        cboFuncionarios = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox<>();
+        cboSucos = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Consumo Mesa X");
-        jLabel1.setToolTipText("");
+        lblTitulo.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("Consumo Mesa X");
+        lblTitulo.setToolTipText("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -77,12 +100,12 @@ public class JanelaConsumo extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1152, Short.MAX_VALUE)
+                .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 1152, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+            .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
         );
 
         jLabel2.setText("Pratos");
@@ -93,27 +116,42 @@ public class JanelaConsumo extends javax.swing.JFrame {
 
         jLabel3.setText("Bebidas");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboPratos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboPratosItemStateChanged(evt);
+            }
+        });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboBebidas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboBebidasItemStateChanged(evt);
+            }
+        });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboDrinks.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboDrinksItemStateChanged(evt);
+            }
+        });
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboVinhos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboVinhosItemStateChanged(evt);
+            }
+        });
 
-        jTextField1.setEditable(false);
-        jTextField1.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("Nome do Produto");
-        jTextField1.setBorder(new javax.swing.border.MatteBorder(null));
+        txtNomeProduto.setEditable(false);
+        txtNomeProduto.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        txtNomeProduto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtNomeProduto.setText("Nome do Produto");
+        txtNomeProduto.setBorder(new javax.swing.border.MatteBorder(null));
 
         jLabel6.setText("Ingredientes");
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Ingrediente 1, Ingrediente 2, Ingrediente 3");
-        jScrollPane1.setViewportView(jTextArea1);
+        txtIngredientes.setEditable(false);
+        txtIngredientes.setColumns(20);
+        txtIngredientes.setRows(5);
+        jScrollPane1.setViewportView(txtIngredientes);
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("Quantidade");
@@ -121,17 +159,15 @@ public class JanelaConsumo extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("Valor");
 
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("Safra");
+        lblSafra.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSafra.setText("Safra");
 
-        jTextField2.setEditable(false);
-        jTextField2.setText("jTextField2");
+        txtQtde.setEditable(false);
+        txtQtde.setText("0");
 
-        jTextField3.setEditable(false);
-        jTextField3.setText("jTextField3");
+        txtValor.setEditable(false);
 
-        jTextField4.setEditable(false);
-        jTextField4.setText("jTextField4");
+        txtSafra.setEditable(false);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -166,16 +202,15 @@ public class JanelaConsumo extends javax.swing.JFrame {
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Consumo");
 
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel11.setText("Tipo Uva");
+        lblTipoUva.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTipoUva.setText("Tipo Uva");
 
-        jTextField5.setEditable(false);
-        jTextField5.setText("jTextField2");
+        txtTipoUva.setEditable(false);
 
         jLabel12.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel12.setText("Quantidade de Pessoas");
 
-        jTextField6.setText("0");
+        txtQtdePessoas.setText("0");
 
         jButton1.setText("Remover selecionado(s)");
 
@@ -187,11 +222,13 @@ public class JanelaConsumo extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel13.setText("Funcionário");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel14.setText("Sucos");
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboSucos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboSucosItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -210,11 +247,11 @@ public class JanelaConsumo extends javax.swing.JFrame {
                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(1, 1, 1)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cboPratos, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboBebidas, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboSucos, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboDrinks, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboVinhos, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(82, 82, 82)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -222,20 +259,20 @@ public class JanelaConsumo extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
                                 .addComponent(jButton2))
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNomeProduto, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblSafra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(lblTipoUva, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField3)
-                                    .addComponent(jTextField4)
-                                    .addComponent(jTextField5))))
+                                    .addComponent(txtQtde)
+                                    .addComponent(txtValor)
+                                    .addComponent(txtSafra)
+                                    .addComponent(txtTipoUva))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane2)
@@ -248,11 +285,11 @@ public class JanelaConsumo extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel13)
                                 .addGap(18, 18, 18)
-                                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cboFuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtQtdePessoas, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 903, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -263,35 +300,35 @@ public class JanelaConsumo extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNomeProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel12)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtQtdePessoas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel7)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtQtde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel13)
-                                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cboFuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblSafra)
+                                    .addComponent(txtSafra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblTipoUva)
+                                    .addComponent(txtTipoUva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -305,23 +342,23 @@ public class JanelaConsumo extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel2)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cboPratos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel3)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cboBebidas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(19, 19, 19)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel14)
-                                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cboSucos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel4)
-                                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cboDrinks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel5)
-                                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cboVinhos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(29, 29, 29))))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -332,54 +369,111 @@ public class JanelaConsumo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JanelaConsumo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JanelaConsumo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JanelaConsumo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JanelaConsumo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void cboPratosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboPratosItemStateChanged
+        MontavelBO bo = new MontavelBO();
+        
+        Montavel montavel = (Montavel) cboPratos.getSelectedItem();
+        
+        MontavelIngredientes ingredientes = bo.listarByMontavel(montavel);
+        
+        List<MontavelIngrediente> list = ingredientes.getMontavelIngredientes();
+        
+        StringBuilder builder = new StringBuilder();
+        
+        for (MontavelIngrediente montavelIngrediente : list) {
+            Ingrediente i = montavelIngrediente.getIngrediente();
+            builder.append(i.getNome() + ", ");
         }
-        //</editor-fold>
+        
+        txtNomeProduto.setText(montavel.getNome());
+        txtValor.setText(String.valueOf(montavel.getValorVenda()));
+        txtIngredientes.setText(builder.toString());
+        
+        txtSafra.setVisible(false);
+        lblSafra.setVisible(false);
+        txtTipoUva.setVisible(false);
+        lblTipoUva.setVisible(false);
+    }//GEN-LAST:event_cboPratosItemStateChanged
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new JanelaConsumo().setVisible(true);
-            }
-        });
-    }
+    private void cboBebidasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboBebidasItemStateChanged
+        
+        txtSafra.setVisible(false);
+        lblSafra.setVisible(false);
+        txtTipoUva.setVisible(false);
+        lblTipoUva.setVisible(false);
+    }//GEN-LAST:event_cboBebidasItemStateChanged
+
+    private void cboSucosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboSucosItemStateChanged
+        MontavelBO bo = new MontavelBO();
+        
+        Montavel montavel = (Montavel) cboSucos.getSelectedItem();
+        
+        MontavelIngredientes ingredientes = bo.listarByMontavel(montavel);
+        
+        List<MontavelIngrediente> list = ingredientes.getMontavelIngredientes();
+        
+        StringBuilder builder = new StringBuilder();
+        
+        for (MontavelIngrediente montavelIngrediente : list) {
+            Ingrediente i = montavelIngrediente.getIngrediente();
+            builder.append(i.getNome() + ", ");
+        }
+        
+        txtNomeProduto.setText(montavel.getNome());
+        txtValor.setText(String.valueOf(montavel.getValorVenda()));
+        txtIngredientes.setText(builder.toString());
+        
+        txtSafra.setVisible(false);
+        lblSafra.setVisible(false);
+        txtTipoUva.setVisible(false);
+        lblTipoUva.setVisible(false);
+    }//GEN-LAST:event_cboSucosItemStateChanged
+
+    private void cboDrinksItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboDrinksItemStateChanged
+        MontavelBO bo = new MontavelBO();
+        
+        Montavel montavel = (Montavel) cboDrinks.getSelectedItem();
+        
+        MontavelIngredientes ingredientes = bo.listarByMontavel(montavel);
+        
+        List<MontavelIngrediente> list = ingredientes.getMontavelIngredientes();
+        
+        StringBuilder builder = new StringBuilder();
+        
+        for (MontavelIngrediente montavelIngrediente : list) {
+            Ingrediente i = montavelIngrediente.getIngrediente();
+            builder.append(i.getNome() + ", ");
+        }
+        
+        txtNomeProduto.setText(montavel.getNome());
+        txtValor.setText(String.valueOf(montavel.getValorVenda()));
+        txtIngredientes.setText(builder.toString());
+        
+        txtSafra.setVisible(false);
+        lblSafra.setVisible(false);
+        txtTipoUva.setVisible(false);
+        lblTipoUva.setVisible(false);
+    }//GEN-LAST:event_cboDrinksItemStateChanged
+
+    private void cboVinhosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboVinhosItemStateChanged
+        txtSafra.setVisible(true);
+        lblSafra.setVisible(true);
+        txtTipoUva.setVisible(true);
+        lblTipoUva.setVisible(true);
+    }//GEN-LAST:event_cboVinhosItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<ProdutoBase> cboBebidas;
+    private javax.swing.JComboBox<ProdutoBase> cboDrinks;
+    private javax.swing.JComboBox<Funcionario> cboFuncionarios;
+    private javax.swing.JComboBox<ProdutoBase> cboPratos;
+    private javax.swing.JComboBox<ProdutoBase> cboSucos;
+    private javax.swing.JComboBox<ProdutoBase> cboVinhos;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -390,17 +484,56 @@ public class JanelaConsumo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JLabel lblSafra;
+    private javax.swing.JLabel lblTipoUva;
+    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JTextArea txtIngredientes;
+    private javax.swing.JTextField txtNomeProduto;
+    private javax.swing.JTextField txtQtde;
+    private javax.swing.JTextField txtQtdePessoas;
+    private javax.swing.JTextField txtSafra;
+    private javax.swing.JTextField txtTipoUva;
+    private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
+
+    private void populaCombos() {
+        MontavelBO montavelBO = new MontavelBO();
+        BebidaBO bebidaBO = new BebidaBO();
+        FuncionarioBO funcionarioBO = new FuncionarioBO();
+        
+        cboBebidas.removeAllItems();
+        
+        cboVinhos.removeAllItems();
+        
+        List<Montavel> montavel = montavelBO.listarByTipo(MontavelTipo.SUCO);
+        cboSucos.removeAllItems();
+        for (Montavel m : montavel) {
+            cboSucos.addItem(m);
+        }
+        
+        montavel = montavelBO.listarByTipo(MontavelTipo.DRINK);
+        cboDrinks.removeAllItems();
+        for (Montavel m : montavel) {
+            cboDrinks.addItem(m);
+        }
+        
+        montavel = montavelBO.listarByTipo(MontavelTipo.PRATO);
+        cboPratos.removeAllItems();
+        for (Montavel m : montavel) {
+            cboPratos.addItem(m);
+        }
+        
+        cboFuncionarios.removeAllItems();
+        List<Funcionario> funcionarios = funcionarioBO.listarTodos();
+        
+        for (Funcionario f : funcionarios) {
+            cboFuncionarios.addItem(f);
+        }
+        
+        
+    }
 }

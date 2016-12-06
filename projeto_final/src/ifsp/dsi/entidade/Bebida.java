@@ -85,6 +85,9 @@ public class Bebida extends ProdutoBase {
         return this;
     }
     
-    
+    @Override
+    public String toString() {
+        return getNome();
+    }
     
 }

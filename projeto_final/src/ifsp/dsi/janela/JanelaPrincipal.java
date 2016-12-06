@@ -130,7 +130,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -523,9 +522,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jMenu2.setText("Relatórios");
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Parêmetros");
-        jMenuBar1.add(jMenu3);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -763,7 +759,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
@@ -847,7 +842,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }
 
     private void iniciarConsumo(Mesa m) {
-        JanelaConsumo janela = new JanelaConsumo();
+        JanelaConsumo janela = new JanelaConsumo(mFuncionario,m);
         janela.setVisible(true);
     }
 }

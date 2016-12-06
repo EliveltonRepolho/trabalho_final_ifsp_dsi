@@ -92,6 +92,12 @@ public class Funcionario implements Serializable {
     public void encriptarSenha() {
         senha = CriptografiaMD5.cryptWithMD5(senha);
     }
+
+    @Override
+    public String toString() {
+        return getNome();
+    }
+    
     
     
 }

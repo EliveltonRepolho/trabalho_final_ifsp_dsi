@@ -56,4 +56,9 @@ public class Montavel extends ProdutoBase{
         return bigDecimal;
     }
 
+    @Override
+    public String toString() {
+        return getNome();
+    }
+
 }
