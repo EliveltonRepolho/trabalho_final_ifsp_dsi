@@ -6,11 +6,12 @@
 package ifsp.dsi.janela;
 
 
-import ifsp.dsi.bo.BebidaBO;
-import ifsp.dsi.entidade.Bebida;
+import ifsp.dsi.bo.VinhoBO;
+import ifsp.dsi.entidade.Vinho;
 import ifsp.dsi.janela.tabela.ModeloTabelaBebida;
 import ifsp.dsi.janela.tabela.ModeloTabelaIngredienteMontavel;
 import ifsp.dsi.janela.tabela.ModeloTabelaMontavel;
+import ifsp.dsi.janela.tabela.ModeloTabelaVinho;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -19,17 +20,18 @@ import javax.swing.JOptionPane;
  *
  * @author repolho
  */
-public class JanelaBebidas extends javax.swing.JFrame {
+public class JanelaVinho extends javax.swing.JFrame {
 
-    private Bebida bebida;
+    private Vinho bebida;
     private ModeloTabelaBebida modelBebidas = new ModeloTabelaBebida();
+    private ModeloTabelaVinho modelVinhos = new ModeloTabelaVinho();
     ModeloTabelaMontavel modelDrinks;
     private ModeloTabelaIngredienteMontavel modelIngredientes;
     
     /**
      * Creates new form JanelaCadItemProduto
      */
-    public JanelaBebidas() {
+    public JanelaVinho() {
         initComponents();
         
         
@@ -71,6 +73,10 @@ public class JanelaBebidas extends javax.swing.JFrame {
         txtQtdEstoque = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtQtdMinima = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        txtSafra = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        txtUva = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -101,7 +107,7 @@ public class JanelaBebidas extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Gerenciamento de Bebidas");
+        jLabel1.setText("Gerenciamento de Vinhos");
         jLabel1.setToolTipText("");
 
         btnExcluirSelecionados.setText("Excluir selecionado(s)");
@@ -169,7 +175,7 @@ public class JanelaBebidas extends javax.swing.JFrame {
         );
 
         modelDrinks = new ModeloTabelaMontavel();
-        tableBebidas.setModel(modelBebidas);
+        tableBebidas.setModel(modelVinhos);
         tableBebidas.setColumnSelectionAllowed(true);
         tableBebidas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -191,6 +197,14 @@ public class JanelaBebidas extends javax.swing.JFrame {
 
         txtQtdMinima.setToolTipText("Valor de custo");
 
+        jLabel12.setText("Safra");
+
+        txtSafra.setToolTipText("Valor de custo");
+
+        jLabel13.setText("Tipo Uva");
+
+        txtUva.setToolTipText("Valor de custo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -208,32 +222,44 @@ public class JanelaBebidas extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(274, 274, 274)
-                                .addComponent(btnExcluirSelecionados))
+                                .addComponent(btnExcluirSelecionados)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtValorCusto)
-                                    .addComponent(txtId, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                                    .addComponent(txtQtdEstoque, javax.swing.GroupLayout.Alignment.TRAILING))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(21, 21, 21)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtPercentualLucro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(txtSafra)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jLabel11)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtQtdMinima, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(jLabel13)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtUva, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(386, 386, 386))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtValorCusto)
+                                            .addComponent(txtId, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                                            .addComponent(txtQtdEstoque, javax.swing.GroupLayout.Alignment.TRAILING))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(21, 21, 21)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(txtPercentualLucro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLabel11)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtQtdMinima, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                         .addGap(487, 487, 487)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(184, 184, 184))))
@@ -269,7 +295,15 @@ public class JanelaBebidas extends javax.swing.JFrame {
                             .addComponent(jLabel10)
                             .addComponent(txtQtdMinima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11))
-                        .addGap(46, 46, 46)
+                        .addGap(5, 5, 5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtSafra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel12))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel13)
+                                .addComponent(txtUva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnExcluirSelecionados))
@@ -292,10 +326,10 @@ public class JanelaBebidas extends javax.swing.JFrame {
             return;
         
        
-        bebida = new Bebida(id ,Double.valueOf(txtPercentualLucro.getText()), 0, Integer.parseInt(txtQtdEstoque.getText()), Integer.parseInt(txtQtdMinima.getText()), txtNome.getText(), BigDecimal.valueOf(Double.valueOf(txtValorCusto.getText())));
-        BebidaBO bo = new BebidaBO();
+        bebida = new Vinho(id ,Double.valueOf(txtPercentualLucro.getText()), 1, Integer.parseInt(txtQtdEstoque.getText()), Integer.parseInt(txtQtdMinima.getText()), txtNome.getText(), BigDecimal.valueOf(Double.valueOf(txtValorCusto.getText())),Integer.parseInt(txtSafra.getText()),txtUva.getText());
+        VinhoBO bo = new VinhoBO();
         bo.salvar(bebida);
-        modelBebidas.addRow(bebida);
+        modelVinhos.addRow(bebida);
         JOptionPane.showMessageDialog(this,"Salvo com sucesso");
         preparaEditavel(false);
         popularTabelaDrinks();
@@ -313,14 +347,14 @@ public class JanelaBebidas extends javax.swing.JFrame {
     }//GEN-LAST:event_actionEditar
 
     private void btnExcluirSelecionados(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirSelecionados
-        List<Bebida> selecionados = modelBebidas.getSelecionados();
-        BebidaBO bo = new BebidaBO();
+        List<Vinho> selecionados = modelVinhos.getSelecionados();
+        VinhoBO bo = new VinhoBO();
         
         
-            for (Bebida b : selecionados) {
+            for (Vinho b : selecionados) {
 
                 if(bo.apagar(b))
-                    modelBebidas.removeRow(b);
+                    modelVinhos.removeRow(b);
             }
         
         
@@ -338,7 +372,7 @@ public class JanelaBebidas extends javax.swing.JFrame {
     }//GEN-LAST:event_actionaCancelar
 
     private void tableBebidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBebidasMouseClicked
-        bebida = modelBebidas.getValueAt(tableBebidas.getSelectedRow());
+        bebida = modelVinhos.getValueAt(tableBebidas.getSelectedRow());
         atualizaValores();
         preparaEditavel(false);
     }//GEN-LAST:event_tableBebidasMouseClicked
@@ -354,6 +388,8 @@ public class JanelaBebidas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
@@ -367,6 +403,8 @@ public class JanelaBebidas extends javax.swing.JFrame {
     private javax.swing.JTextField txtPercentualLucro;
     private javax.swing.JTextField txtQtdEstoque;
     private javax.swing.JTextField txtQtdMinima;
+    private javax.swing.JTextField txtSafra;
+    private javax.swing.JTextField txtUva;
     private javax.swing.JTextField txtValorCusto;
     // End of variables declaration//GEN-END:variables
 
@@ -380,8 +418,10 @@ public class JanelaBebidas extends javax.swing.JFrame {
         txtValorCusto.setText("");
         txtQtdEstoque.setText("");
         txtQtdMinima.setText("");
+        txtSafra.setText("");
+        txtUva.setText("");
         
-        //modelBebidas.removeAllRows();
+        //modelVinhos.removeAllRows();
         
         txtNome.requestFocus();
         
@@ -397,6 +437,8 @@ public class JanelaBebidas extends javax.swing.JFrame {
         txtPercentualLucro.setEnabled(editavel);
         txtQtdEstoque.setEnabled(editavel);
         txtQtdMinima.setEnabled(editavel);
+        txtSafra.setEnabled(editavel);
+        txtUva.setEnabled(editavel);
         
     }
     
@@ -439,12 +481,12 @@ public class JanelaBebidas extends javax.swing.JFrame {
     
     private void popularTabelaDrinks() {
         
-        modelBebidas.removeAllRows();
-        BebidaBO bo = new BebidaBO();
-        List<Bebida> lista = bo.listarByTipo();
+        modelVinhos.removeAllRows();
+        VinhoBO bo = new VinhoBO();
+        List<Vinho> lista = bo.listarByTipo();
         
-        for (Bebida b : lista) {
-            modelBebidas.addRow(b);
+        for (Vinho b : lista) {
+            modelVinhos.addRow(b);
         }
 
     }

@@ -6,7 +6,7 @@
 package ifsp.dsi.dao;
 
 import ifsp.dsi.bd.ConexaoBD;
-import ifsp.dsi.entidade.Bebida;
+import ifsp.dsi.entidade.Vinho;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,13 +19,13 @@ import java.util.List;
  *
  * @author repolho
  */
-public class BebidaDAO{
+public class VinhoDAO{
 
-    public void salvar(Bebida bebida) throws SQLException {
+    public void salvar(Vinho bebida) throws SQLException {
         Connection con = null;
         PreparedStatement pStatProduto = null;
         PreparedStatement pStatBebida = null;
-        PreparedStatement pStatItens = null;
+        PreparedStatement pStatVinho = null;
         ConexaoBD conexaoBD = ConexaoBD.getInstance();        
     
         String sqlProduto = "insert into produto(id_produto, nome,percentual_lucro)"
@@ -34,6 +34,9 @@ public class BebidaDAO{
         String sqlBebida = "insert into bebida(id_produto,tipo, valor_custo, qtde_estoque, qtde_min_estoque)"
                 + "values(seq_produto.CURRVAL,?,?,?,?)";
         
+        
+        String sqlVinho = "insert into detalhe_vinho(id_produto, safra,tipo_uva)"
+                + "values(seq_produto.CURRVAL,?,?)";
         
                 
         try {
@@ -54,6 +57,12 @@ public class BebidaDAO{
 
             pStatBebida.executeUpdate();
             
+            pStatVinho = con.prepareStatement(sqlVinho);
+            pStatVinho.setInt(1,bebida.getSafra());
+            pStatVinho.setString(2, bebida.getTipoUva());
+            
+            pStatVinho.executeUpdate();
+            
             
             con.commit();
         }
@@ -66,11 +75,12 @@ public class BebidaDAO{
         }
         finally {
             EntidadeDAO.fecharRecursos(con, pStatProduto);
-            EntidadeDAO.fecharRecursos(con, pStatItens);
+            EntidadeDAO.fecharRecursos(con, pStatBebida);
+            EntidadeDAO.fecharRecursos(con, pStatVinho);
         }
     }
     
-    private boolean existe(Bebida b) throws SQLException{
+    private boolean existe(Vinho b) throws SQLException{
         Connection con = null;
         PreparedStatement pStat = null;
         String sql = "select 1 from produto "
@@ -97,10 +107,11 @@ public class BebidaDAO{
         return true;
     }
     
-    public void atualizar(Bebida bebida) throws SQLException {
+    public void atualizar(Vinho bebida) throws SQLException {
         Connection con = null;
         PreparedStatement pStatProduto = null;
         PreparedStatement pStatBebida = null;
+        PreparedStatement pStatVinho = null;
         
         ConexaoBD conexaoBD = ConexaoBD.getInstance();        
         
@@ -111,7 +122,8 @@ public class BebidaDAO{
         String sqlUpdateBebida = "update bebida set tipo = ?, valor_custo = ?, qtde_estoque = ?, qtde_min_estoque = ? "
                              + "where id_produto = ? ";
                 
-        
+        String sqlUpdateVinho = "update detalhe_vinho set safra = ?, tipo_uva = ? "
+                             + "where id_produto = ? ";
     
         
         try {
@@ -134,6 +146,13 @@ public class BebidaDAO{
 
             pStatBebida.executeUpdate();
             
+            pStatVinho = con.prepareStatement(sqlUpdateVinho);
+            pStatVinho.setInt(1,bebida.getSafra());
+            pStatVinho.setString(2, bebida.getTipoUva());
+            pStatVinho.setLong(3, bebida.getId());
+            
+            pStatVinho.executeUpdate();
+            
             con.commit();
         }
         catch(SQLException erro){
@@ -150,14 +169,14 @@ public class BebidaDAO{
         }
     }
 
-    public void apagar(Bebida b) throws SQLException {
+    public void apagar(Vinho b) throws SQLException {
         Connection con = null;
         PreparedStatement pStat = null;
         ConexaoBD conexaoBD = ConexaoBD.getInstance();        
         
         String sql1 = "delete produto where id_produto = ?";
         String sql2 = "delete bebida where id_produto = ?";
-        
+        String sql3 = "delete vinho where id_produto = ?";
         try {
             con = conexaoBD.getConnection();
             con.setAutoCommit(false);
@@ -168,6 +187,11 @@ public class BebidaDAO{
             pStat.executeUpdate();
             
             pStat = con.prepareStatement(sql2);
+            pStat.setLong(1, b.getId());
+            
+            pStat.executeUpdate();
+            
+            pStat = con.prepareStatement(sql3);
             pStat.setLong(1, b.getId());
             
             pStat.executeUpdate();
@@ -186,20 +210,22 @@ public class BebidaDAO{
         }
     }
 
-    public List<Bebida> listarByTipo() throws SQLException {
+    public List<Vinho> listarByTipo() throws SQLException {
         
         Connection con = null;
         PreparedStatement pStat = null;
         ResultSet rs = null;
         ConexaoBD conexaoBD = ConexaoBD.getInstance();
         
-        String sql = "select p.percentual_lucro, b.tipo, b.qtde_estoque, b.QTDE_MIN_ESTOQUE, p.nome, b.VALOR_CUSTO, p.id_produto" +
+        String sql = "select p.percentual_lucro, b.tipo, b.qtde_estoque, b.QTDE_MIN_ESTOQUE, p.nome, b.VALOR_CUSTO, p.id_produto, v.safra, v.tipo_uva" +
                     "    from produto p," +
-                    "          bebida b" +
+                    "          bebida b," +
+                    "           detalhe_vinho v" +
                     "    where p.id_produto = b.id_produto" +
-                    "     and b.tipo = 0";
+                    "    and v.id_produto = p.id_produto  " +
+                    "     and b.tipo = 1";
         
-        List<Bebida> list = new ArrayList<>();
+        List<Vinho> list = new ArrayList<>();
         
         try
         {
@@ -210,16 +236,18 @@ public class BebidaDAO{
           rs = pStat.executeQuery();
           
           while (rs.next()) {
-                Bebida b = new Bebida(
-                        (double)rs.getLong(1), 
+                Vinho b = new Vinho(
+                        rs.getLong(7),
+                        rs.getDouble(1),
                         rs.getInt(2), 
                         rs.getInt(3), 
                         rs.getInt(4), 
                         rs.getString(5),
-                        rs.getBigDecimal(6)
+                        rs.getBigDecimal(6),
+                        rs.getInt(8),
+                        rs.getString(9)
                 );
                 
-                b.setId(rs.getLong(7));
                 
                 list.add(b);
          }

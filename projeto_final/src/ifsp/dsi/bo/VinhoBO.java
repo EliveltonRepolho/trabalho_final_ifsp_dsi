@@ -5,12 +5,8 @@
  */
 package ifsp.dsi.bo;
 
-import ifsp.dsi.dao.BebidaDAO;
-import ifsp.dsi.dao.MontavelDAO;
-import ifsp.dsi.entidade.Bebida;
-import ifsp.dsi.entidade.Montavel;
-import ifsp.dsi.entidade.MontavelIngredientes;
-import ifsp.dsi.enums.MontavelTipo;
+import ifsp.dsi.dao.VinhoDAO;
+import ifsp.dsi.entidade.Vinho;
 import ifsp.dsi.janela.util.MessageBox;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,13 +18,13 @@ import java.util.logging.Logger;
  *
  * @author repolho
  */
-public class BebidaBO {
+public class VinhoBO {
         
-    public BebidaBO() {}
+    public VinhoBO() {}
     
-    public void salvar(Bebida bebida){
+    public void salvar(Vinho bebida){
         
-        BebidaDAO dao = new BebidaDAO();
+        VinhoDAO dao = new VinhoDAO();
         
         try {
             System.out.println(bebida.getId());
@@ -39,20 +35,20 @@ public class BebidaBO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(BebidaBO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VinhoBO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public boolean apagar(Bebida bebida){
+    public boolean apagar(Vinho bebida){
         
-        BebidaDAO dao = new BebidaDAO();
+        VinhoDAO dao = new VinhoDAO();
 
         boolean deletado = true;
         
         try {
             dao.apagar(bebida);
         } catch (SQLException ex) {
-            Logger.getLogger(BebidaBO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VinhoBO.class.getName()).log(Level.SEVERE, null, ex);
             
             deletado = false;
             
@@ -62,32 +58,17 @@ public class BebidaBO {
         return deletado;
     }
     
-    public MontavelIngredientes listarByMontavel(Montavel montavel){
-        
-        MontavelDAO dao = new MontavelDAO();
-        
-        MontavelIngredientes lista = null;
-        
-        try {
-            lista = dao.listarByMontavel(montavel);
-        } catch (SQLException ex) {
-            Logger.getLogger(BebidaBO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return lista;
-        
-    }
     
-    public List<Bebida> listarByTipo(){
+    public List<Vinho> listarByTipo(){
         
-        BebidaDAO dao = new BebidaDAO();
+        VinhoDAO dao = new VinhoDAO();
         
-        List<Bebida> lista = new ArrayList<>();
+        List<Vinho> lista = new ArrayList<>();
         
         try {
             lista = dao.listarByTipo();
         } catch (SQLException ex) {
-            Logger.getLogger(BebidaBO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VinhoBO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return lista;

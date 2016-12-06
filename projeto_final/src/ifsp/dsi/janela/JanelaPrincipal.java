@@ -513,6 +513,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jMenu1.add(jMenuItem11);
 
         jMenuItem7.setText("Vinhos");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVinho(evt);
+            }
+        });
         jMenu1.add(jMenuItem7);
         jMenu1.add(jSeparator1);
         jMenu1.add(jSeparator2);
@@ -730,6 +735,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         JanelaManterCardapio janela = new JanelaManterCardapio();
         janela.setVisible(true);
     }//GEN-LAST:event_menuCardapio
+
+    private void menuVinho(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVinho
+        JanelaVinho janela = new JanelaVinho();
+        janela.setVisible(true);
+    }//GEN-LAST:event_menuVinho
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddClienteReserva;

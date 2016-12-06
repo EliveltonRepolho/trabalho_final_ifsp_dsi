@@ -5,33 +5,35 @@
  */
 package ifsp.dsi.janela.tabela;
 
-import ifsp.dsi.entidade.Bebida;
+import ifsp.dsi.entidade.Vinho;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 
-public class ModeloTabelaBebida extends AbstractTableModel{
+public class ModeloTabelaVinho extends AbstractTableModel{
     
-    private String[] columns = {"Id", "Nome", "Estoque", "Qtde Mínima", "Valor de Custo","Bebida", "#"};
-    private List<Bebida> bebidas;
+    private String[] columns = {"Id", "Nome", "Estoque", "Qtde Mínima", "Valor de Custo","Bebida","Safra","Tipo Uva", "#"};
+    private List<Vinho> bebidas;
     
     
-    public List<Bebida> getList() {
+    public List<Vinho> getList() {
         return bebidas;        
     }
 
-    public ModeloTabelaBebida(){
+    public ModeloTabelaVinho(){
         bebidas = new ArrayList<>();
     }
     
-    private void atualizarAtIndex(int index, Bebida bebida){
+    private void atualizarAtIndex(int index, Vinho bebida){
         bebidas.get(index).setId(bebida.getId());
         bebidas.get(index).setNome(bebida.getNome());
         bebidas.get(index).setQtd_estoque(bebida.getQtd_estoque());
         bebidas.get(index).setQtd_minima(bebida.getQtd_minima());
         bebidas.get(index).setValorCusto(bebida.getValorCusto());
         bebidas.get(index).setTipo(bebida.getTipo());
+        bebidas.get(index).setSafra(bebida.getSafra());
+        bebidas.get(index).setTipoUva(bebida.getTipoUva());
     }
     
     private String retornaTipoBebida(int tipo){
@@ -43,7 +45,7 @@ public class ModeloTabelaBebida extends AbstractTableModel{
         }
         return "";
     }    
-    public void addRow(Bebida bebida) {
+    public void addRow(Vinho bebida) {
         boolean encontrou = false;
         
         for (int j = 0; j < bebidas.size() - 1; j++) {
@@ -70,11 +72,11 @@ public class ModeloTabelaBebida extends AbstractTableModel{
         fireTableDataChanged();  
     }
     
-    public void removeRow(Bebida remove){
+    public void removeRow(Vinho remove){
         
-        List<Bebida> deletados = new ArrayList<>();
+        List<Vinho> deletados = new ArrayList<>();
         
-        for (Bebida i : bebidas) {
+        for (Vinho i : bebidas) {
             if(i.getId() == remove.getId())
                 deletados.add(i);
         }
@@ -84,10 +86,10 @@ public class ModeloTabelaBebida extends AbstractTableModel{
         fireTableDataChanged();  
     }
     
-    public List<Bebida> getSelecionados(){
-        List<Bebida> selecionados = new ArrayList<>();
+    public List<Vinho> getSelecionados(){
+        List<Vinho> selecionados = new ArrayList<>();
         
-        for (Bebida i : bebidas) {
+        for (Vinho i : bebidas) {
             if(i.isSelecionado())
                 selecionados.add(i);
         }
@@ -99,7 +101,7 @@ public class ModeloTabelaBebida extends AbstractTableModel{
         return columns.length;
     }
 
-    public Bebida getValueAt(int rowIndex) {
+    public Vinho getValueAt(int rowIndex) {
         return bebidas.get(rowIndex);        
     }
     
@@ -118,6 +120,10 @@ public class ModeloTabelaBebida extends AbstractTableModel{
                 return bebidas.get(rowIndex).getValorCusto();
             case 5:
                 return retornaTipoBebida(bebidas.get(rowIndex).getTipo());
+            case 6:
+                return bebidas.get(rowIndex).getSafra();
+            case 7:
+                return bebidas.get(rowIndex).getTipoUva();
             default:
                 break;
         }
@@ -129,7 +135,7 @@ public class ModeloTabelaBebida extends AbstractTableModel{
     @Override
     public boolean isCellEditable(int row, int column) {
        
-        if (column == 6) 
+        if (column == 8) 
             return true;
         
         return false;
@@ -148,12 +154,13 @@ public class ModeloTabelaBebida extends AbstractTableModel{
     if(columnCount<=1){
        return String.class;
     }
+    
     return getValueAt(0, c).getClass();
     }
     
     @Override
     public void setValueAt(Object value, int row, int column) {
-        if (column == 6) {
+        if (column == 8) {
             bebidas.get(row).setSelecionado((boolean) value);
             fireTableCellUpdated(row, column);
         }

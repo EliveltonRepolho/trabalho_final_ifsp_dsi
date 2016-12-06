@@ -11,38 +11,57 @@ import java.math.BigDecimal;
  *
  * @author HP
  */
-public class Bebida extends ProdutoBase {
+public class Vinho extends ProdutoBase {
     
-    int tipo, qtd_estoque, qtd_minima, id;
+    int tipo, qtd_estoque, qtd_minima, safra;
     double percentual_lucro;
     double valorVenda;
     boolean selecionado;
-    
+    String tipoUva;
+   
 
-
-
-    
-
-
-    public Bebida(double percentual_lucro, int tipo, int qtd_estoque, int qtd_minima, String nome, BigDecimal valorCusto) {
+    public Vinho(double percentual_lucro, int tipo, int qtd_estoque, int qtd_minima, String nome, BigDecimal valorCusto, int safra, String tipoUva) {
         super(nome, valorCusto);
         this.percentual_lucro = percentual_lucro;
         this.tipo = tipo;
         this.qtd_estoque = qtd_estoque;
         this.qtd_minima = qtd_minima;
+        this.safra = safra;
+        this.tipoUva = tipoUva;
         calculaValorVenda();
     }
 
     
     
-        public Bebida(long id, double percentual_lucro, int tipo, int qtd_estoque, int qtd_minima, String nome, BigDecimal valorCusto) {
+        public Vinho(long id, double percentual_lucro, int tipo, int qtd_estoque, int qtd_minima, String nome, BigDecimal valorCusto, int safra, String tipoUva) {
         super(id, nome, valorCusto);
         this.percentual_lucro = percentual_lucro;
         this.tipo = tipo;
         this.qtd_estoque = qtd_estoque;
         this.qtd_minima = qtd_minima;
+        this.safra = safra;
+        this.tipoUva = tipoUva;
         calculaValorVenda();
     }
+
+    public int getSafra() {
+        return safra;
+    }
+
+    public void setSafra(int safra) {
+        this.safra = safra;
+    }
+
+    public String getTipoUva() {
+        return tipoUva;
+    }
+
+    public void setTipoUva(String tipoUva) {
+        this.tipoUva = tipoUva;
+    }
+        
+        
+        
 
     public boolean isSelecionado() {
         return selecionado;
@@ -98,7 +117,7 @@ public class Bebida extends ProdutoBase {
          this.valorVenda = (((vlrCusto / 100)*this.getPercentual_lucro())+vlrCusto);
     } 
     
-    public Bebida getBebida(){
+    public Vinho getBebida(){
         return this;
     }
     
