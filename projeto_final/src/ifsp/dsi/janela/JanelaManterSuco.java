@@ -381,6 +381,8 @@ public class JanelaManterSuco extends javax.swing.JFrame {
         modelSucos.addRow(montavel);
         MessageBox.showInfo("Salvo com sucesso !");
         
+        popularTabelaSucos();
+        
     }//GEN-LAST:event_actionSalvar
 
     private void actionNovo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionNovo
@@ -578,6 +580,8 @@ public class JanelaManterSuco extends javax.swing.JFrame {
     }
     
     private void popularTabelaSucos() {
+        
+        modelSucos.removeAllRows();
         
         List<Montavel> lista = mMontavelBO.listarByTipo(MontavelTipo.SUCO);
         

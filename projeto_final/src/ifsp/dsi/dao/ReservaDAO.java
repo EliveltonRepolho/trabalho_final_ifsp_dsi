@@ -5,6 +5,7 @@
  */
 package ifsp.dsi.dao;
 
+import ifsp.dsi.bd.ConexaoBD;
 import ifsp.dsi.entidade.Cliente;
 import ifsp.dsi.entidade.Mesa;
 import ifsp.dsi.entidade.Reserva;
@@ -32,7 +33,7 @@ public class ReservaDAO extends AbstractDAO<Reserva> implements EntidadeDAO<Rese
         pStat = con.prepareStatement(sql);
         pStat.setLong(1, r.getCliente().getId());
         pStat.setInt(2, r.getMesa().getNumero());
-        pStat.setDate(3, DateUtil.convertToSQL(r.getDataHora()));
+        pStat.setTimestamp(3, DateUtil.convertToSQLTimestamp(r.getDataHora()));
             
         return pStat;
     }
@@ -43,7 +44,7 @@ public class ReservaDAO extends AbstractDAO<Reserva> implements EntidadeDAO<Rese
         PreparedStatement pStat = null;
         
         pStat = con.prepareStatement(sql);
-        pStat.setDate(1, DateUtil.convertToSQL(r.getDataHora()));
+        pStat.setTimestamp(1, DateUtil.convertToSQLTimestamp(r.getDataHora()));
         pStat.setInt(2, r.getStatus().getStatus());
         pStat.setLong(3, r.getCliente().getId());
         pStat.setInt(4, r.getMesa().getNumero());
@@ -78,7 +79,7 @@ public class ReservaDAO extends AbstractDAO<Reserva> implements EntidadeDAO<Rese
                     rs.getLong(7), 
                     m, 
                     c, 
-                    DateUtil.convertToDate(rs.getDate(8)),
+                    DateUtil.convertToDate(rs.getTimestamp(8)),
                     StatusReserva.getByStatus(rs.getInt(9))
             );
             
@@ -98,6 +99,42 @@ public class ReservaDAO extends AbstractDAO<Reserva> implements EntidadeDAO<Rese
         pStat = con.prepareStatement(sql);        
             
         return pStat;
+    }
+    
+    public List<Reserva> listarTodos(StatusReserva status) throws SQLException{
+        
+        Connection con = null;
+        PreparedStatement pStat = null;
+        ResultSet rs = null;
+        ConexaoBD conexaoBD = ConexaoBD.getInstance();
+        
+        String sql = "select c.id_cliente,c.nome,c.telefone, m.numero_mesa,m.qtde_lugares,m.status, l.id_reserva, l.data_hora, l.status "
+                   + "from lista_reserva l,cliente c, mesa m "
+                   + "where l.id_cliente = c.id_cliente and l.numero_mesa = m.numero_mesa "
+                   + "      and l.data_hora >= systimestamp and l.status = ?"
+                   + "order by l.data_hora,c.nome";
+        
+        List<Reserva> list = new ArrayList<>();
+        
+        try
+        {
+          con = conexaoBD.getConnection();
+          
+          pStat = con.prepareStatement(sql);            
+          pStat.setInt(1, status.getStatus());
+          
+          rs = pStat.executeQuery();
+          
+          list = getListaTodos(rs);
+          
+        }
+        finally
+        {
+            EntidadeDAO.fecharRecursos(con, pStat, rs);
+        }
+        
+        return list;
+        
     }
     
 }

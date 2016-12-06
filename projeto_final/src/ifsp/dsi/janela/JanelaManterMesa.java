@@ -259,6 +259,8 @@ public class JanelaManterMesa extends javax.swing.JFrame {
         model.addRow(mMesa);
         MessageBox.showInfo("Salvo com sucesso !");
         
+        popularTabela();
+        
     }//GEN-LAST:event_actionSalvar
 
     private void actionNovo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionNovo
@@ -375,6 +377,8 @@ public class JanelaManterMesa extends javax.swing.JFrame {
     }
 
     private void popularTabela() {
+        
+        model.removeAllRows();
         
         List<Mesa> lista = mMesaBO.listarTodos();
         

@@ -352,6 +352,8 @@ public class JanelaManterFuncionario extends javax.swing.JFrame {
         model.addRow(mFuncionario);
         MessageBox.showInfo("Salvo com sucesso !");
         
+        popularTabela();
+        
     }//GEN-LAST:event_actionSalvar
 
     private void actionNovo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionNovo
@@ -507,6 +509,8 @@ public class JanelaManterFuncionario extends javax.swing.JFrame {
     }
 
     private void popularTabela() {
+        
+        model.removeAllRows();
         
         List<Funcionario> lista = mFuncionarioBO.listarTodos();
         

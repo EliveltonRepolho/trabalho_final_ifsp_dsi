@@ -5,6 +5,11 @@
  */
 package ifsp.dsi.util;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author repolho
@@ -20,7 +25,17 @@ public class DateUtil {
         return new java.sql.Date(date.getTimeInMillis());
     }
     
+    public static java.sql.Timestamp convertToSQLTimestamp(java.util.Calendar date) {
+        return new java.sql.Timestamp(date.getTimeInMillis());
+    }
+    
     public static java.util.Calendar convertToDate(java.sql.Date date) {
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
+    }
+    
+    public static java.util.Calendar convertToDate(java.sql.Timestamp date) {
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(date);
         return calendar;

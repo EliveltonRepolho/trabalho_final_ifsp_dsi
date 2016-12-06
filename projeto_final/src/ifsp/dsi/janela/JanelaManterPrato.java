@@ -381,6 +381,8 @@ public class JanelaManterPrato extends javax.swing.JFrame {
         modelPratos.addRow(montavel);
         MessageBox.showInfo("Salvo com sucesso !");
         
+        popularTabelaPratos();
+        
     }//GEN-LAST:event_actionSalvar
 
     private void actionNovo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionNovo
@@ -578,6 +580,8 @@ public class JanelaManterPrato extends javax.swing.JFrame {
     }
     
     private void popularTabelaPratos() {
+        
+        modelPratos.removeAllRows();
         
         List<Montavel> lista = mMontavelBO.listarByTipo(MontavelTipo.PRATO);
         

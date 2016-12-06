@@ -20,6 +20,8 @@ public class Reserva implements Serializable{
     private Calendar dataHora;
     private StatusReserva status;
 
+    private boolean selecionado;
+    
     public Reserva(Mesa mesa, Cliente cliente, Calendar dataHora, StatusReserva status) {
         this.mesa = mesa;
         this.cliente = cliente;
@@ -73,6 +75,14 @@ public class Reserva implements Serializable{
 
     public void setStatus(StatusReserva status) {
         this.status = status;
+    }
+
+    public boolean isSelecionado() {
+        return selecionado;
+    }
+
+    public void setSelecionado(boolean selecionado) {
+        this.selecionado = selecionado;
     }
     
     

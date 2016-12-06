@@ -16,6 +16,7 @@ import java.util.Map;
 public enum StatusReserva {
     RESERVADA(0,"Reservada"),
     ESPERA(1,"Liste de Espera"),
+    FINALIZADA(2,"Finalizada"),
     CANCELADA(9,"Cancelada");
     
     private int status;

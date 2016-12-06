@@ -19,7 +19,6 @@ public class Ingrediente extends ProdutoBase implements Serializable{
     private boolean prato;
     private boolean bebida;
     
-    private boolean selecionado;
     
     public Ingrediente(String nome, BigDecimal valorCusto, double qtdeEstoque, double qtdeMinima, boolean prato, boolean bebida) {
         super(nome, valorCusto);
@@ -69,13 +68,6 @@ public class Ingrediente extends ProdutoBase implements Serializable{
         this.qtdeMinima = qtdeMinima;
     }
 
-    public boolean isSelecionado() {
-        return selecionado;
-    }
-
-    public void setSelecionado(boolean selecionado) {
-        this.selecionado = selecionado;
-    }
 
     @Override
     public String toString() {

@@ -22,45 +22,141 @@ import java.util.List;
  *
  * @author repolho
  */
-public class ClienteDAO extends AbstractDAO<Cliente> implements EntidadeDAO<Cliente>{
+public class ClienteDAO{
 
-    @Override
-    protected PreparedStatement getPreparedStatementSalvar(Connection con, Cliente c) throws SQLException {
+    public Cliente salvar(Cliente c) throws SQLException {
+        Connection con = null;
+        PreparedStatement pStat = null;
+        ConexaoBD conexaoBD = ConexaoBD.getInstance();        
+        
         String sql = "insert into cliente(id_cliente, nome,telefone) values (seq_cliente.NEXTVAL, ?,?)";
-        PreparedStatement pStat = null;
         
-        pStat = con.prepareStatement(sql);
-        pStat.setString(1, c.getNome());
-        pStat.setLong(2, c.getTelefone());
+        try {
+            con = conexaoBD.getConnection();
+            con.setAutoCommit(false);
             
-        return pStat;
-    }
+            pStat = con.prepareStatement(sql,new String[]{"id_cliente"});
+            
+            pStat.setString(1, c.getNome());
+            pStat.setLong(2, c.getTelefone());
+            
+            pStat.executeUpdate();
+            
+            ResultSet rs = pStat.getGeneratedKeys();
+            
+            long key = 0;
+            if (rs != null && rs.next()) {
+                key = rs.getLong(1);
+            }
+            
+            c.setId(key);
 
-    @Override
-    protected PreparedStatement getPreparedStatementAtualizar(Connection con, Cliente c) throws SQLException {
+            con.commit();
+        }
+        catch(SQLException erro){
+            if(con != null){
+                con.rollback();
+            }
+            
+            throw erro;
+        }
+        finally {
+            EntidadeDAO.fecharRecursos(con, pStat);
+        }
+        
+        return c;
+    }
+    
+    public void atualizar(Cliente c) throws SQLException {
+        Connection con = null;
+        PreparedStatement pStat = null;
+        ConexaoBD conexaoBD = ConexaoBD.getInstance();        
+        
         String sql = "update cliente set nome = ?, telefone = ? where id_cliente = ?";
-        PreparedStatement pStat = null;
         
-        pStat = con.prepareStatement(sql);
-        pStat.setString(1, c.getNome());
-        pStat.setLong(2, c.getTelefone());
+        try {
+            con = conexaoBD.getConnection();
+            con.setAutoCommit(false);
             
-        return pStat;
-    }
+            pStat = con.prepareStatement(sql);
+            pStat.setString(1, c.getNome());
+            pStat.setLong(2, c.getTelefone());
+        
+            pStat.executeUpdate();
 
-    @Override
-    protected PreparedStatement getPreparedStatementApagar(Connection con, Cliente c) throws SQLException {
+            con.commit();
+        }
+        catch(SQLException erro){
+            if(con != null){
+                con.rollback();
+            }
+            
+            throw erro;
+        }
+        finally {
+            EntidadeDAO.fecharRecursos(con, pStat);
+        }
+    }
+    
+    public void apagar(Cliente c) throws SQLException {
+        Connection con = null;
+        PreparedStatement pStat = null;
+        ConexaoBD conexaoBD = ConexaoBD.getInstance();        
+        
         String sql = "delete from cliente where id_cliente = ?";
-        PreparedStatement pStat = null;
         
-        pStat = con.prepareStatement(sql);        
-        pStat.setLong(1, c.getId());
+        try {
+            con = conexaoBD.getConnection();
+            con.setAutoCommit(false);
             
-        return pStat;
-    }
+            pStat = con.prepareStatement(sql);        
+            pStat.setLong(1, c.getId());
+            
+            pStat.executeUpdate();
 
-    @Override
-    protected List<Cliente> getListaTodos(ResultSet rs) throws SQLException {
+            con.commit();
+        }
+        catch(SQLException erro){
+            if(con != null){
+                con.rollback();
+            }
+            
+            throw erro;
+        }
+        finally {
+            EntidadeDAO.fecharRecursos(con, pStat);
+        }
+    }
+    
+
+    public List<Cliente> listarTodos()throws SQLException{
+        Connection con = null;
+        PreparedStatement pStat = null;
+        ResultSet rs = null;
+        ConexaoBD conexaoBD = ConexaoBD.getInstance();
+        
+        String sql = "select id_cliente, nome,telefone from cliente";
+        
+        List<Cliente> list = new ArrayList<>();
+        try
+        {
+          con = conexaoBD.getConnection();
+          
+          pStat = con.prepareStatement(sql); 
+          
+          rs = pStat.executeQuery();
+          list = getListaTodos(rs);
+          
+        }
+        finally
+        {
+            EntidadeDAO.fecharRecursos(con, pStat, rs);
+        }
+        
+        return list;
+    }
+    
+    private List<Cliente> getListaTodos(ResultSet rs) throws SQLException {
         List<Cliente> clientes = new ArrayList<>();
         
         while (rs.next()) {
@@ -77,15 +173,6 @@ public class ClienteDAO extends AbstractDAO<Cliente> implements EntidadeDAO<Clie
         return clientes;
     }
 
-    @Override
-    protected PreparedStatement getPreparedStatementListarTodos(Connection con) throws SQLException {
-        String sql = "select id_cliente, nome,telefone from cliente";
-        PreparedStatement pStat = null;
-        
-        pStat = con.prepareStatement(sql);        
-            
-        return pStat;
-    }
     
     public Cliente getByTelefone(long telefeone) throws SQLException{
         

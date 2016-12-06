@@ -381,6 +381,7 @@ public class JanelaManterDrink extends javax.swing.JFrame {
         modelDrinks.addRow(montavel);
         MessageBox.showInfo("Salvo com sucesso !");
         
+        popularTabelaDrinks();
     }//GEN-LAST:event_actionSalvar
 
     private void actionNovo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actionNovo
@@ -579,6 +580,7 @@ public class JanelaManterDrink extends javax.swing.JFrame {
     
     private void popularTabelaDrinks() {
         
+        modelDrinks.removeAllRows();
         List<Montavel> lista = mMontavelBO.listarByTipo(MontavelTipo.DRINK);
         
         for (Montavel m : lista) {
